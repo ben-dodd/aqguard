@@ -10,6 +10,7 @@
   "dependencies": {
     "bad-words": "^3.0.4",
     "clsx": "^1.1.1",
+    "date-fns": "^2.22.1",
     "dotenv": "^8.2.0",
     "next": "latest",
     "react": "^17.0.2",

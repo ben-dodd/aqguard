@@ -65,13 +65,18 @@ export function mapLogs(logs: Log[]) {
 
 export function getCurrent(data, key: string) {
   if (data)
-    if (key) return data[key][0].value;
+    if (key)
+      return { values: data[key][0].value, lastUpdated: data[key][0].dateTime };
     else {
-      let currentMap = {};
+      let values = {};
+      let lastUpdated = null;
       Object.keys(data).forEach((k) => {
-        currentMap[k] = data[k][0].value;
+        values[k] = data[k][0].value;
+        if (data[k][0].dateTime > lastUpdated)
+          lastUpdated = data[k][0].dateTime;
       });
-      console.log(currentMap);
-      return currentMap;
+      console.log(values);
+      return { values, lastUpdated };
     }
+  else return { values: null, lastUpdated: null };
 }
