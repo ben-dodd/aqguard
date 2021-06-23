@@ -63,7 +63,7 @@ export function mapLogs(logs: Log[]) {
   return measurements;
 }
 
-export function getCurrent(data, key: string) {
+export function getCurrent(data, key?: string) {
   if (data)
     if (key)
       return { values: data[key][0].value, lastUpdated: data[key][0].dateTime };
