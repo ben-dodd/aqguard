@@ -1,6 +1,7 @@
-import Entry from './entry'
+import Entry from "./entry";
 
 function Entries({ entries }) {
+  console.log(entries);
   if (entries) {
     return (
       <div>
@@ -10,10 +11,10 @@ function Entries({ entries }) {
           </div>
         ))}
       </div>
-    )
+    );
   } else {
-    return null
+    return null;
   }
 }
 
-export default Entries
+export default Entries;
