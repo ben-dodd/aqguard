@@ -38,7 +38,9 @@ export default function IndexPage() {
   console.log(lastUpdated);
   return (
     <div>
-      <div>Last updated: {lastUpdated ? format(lastUpdated, "Pp") : "N/A"}</div>
+      <div>
+        Last updated: {lastUpdated ? format(lastUpdated, "Ppp") : "N/A"}
+      </div>
       <div className="m-8 text-xl flex justify-evenly">
         <div className="mr-4 font-bold text-blue-400 text-right">
           <div>Aerosol Pump Output</div>
