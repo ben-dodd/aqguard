@@ -1,13 +1,13 @@
 // import { useRouter } from 'next/router'
 //
-// import { useEntry } from '@/lib/swr-hooks'
+// // import { useEntry } from '@/lib/swr-hooks'
 // import Container from '@/components/container'
 // import Nav from '@/components/nav'
 //
 // export default function EditEntryPage() {
 //   const router = useRouter()
 //   const id = router.query.id?.toString()
-//   const { data } = useEntry(id)
+//   // const { data } = useEntry(id)
 //
 //   if (data) {
 //     return (
