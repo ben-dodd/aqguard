@@ -7,10 +7,10 @@ interface Log {
   SysLogTag: string;
 }
 
-interface mValue {
-  date: Date;
-  value: number;
-}
+// interface mValue {
+//   date: Date;
+//   value: number;
+// }
 
 const channelNumbers = {
   23: "aerosolPumpOutput",
@@ -42,7 +42,6 @@ export function mapLogs(logs: Log[]) {
       // Remove whitespace at front and the three CHECKSUM characters at the end. Then split measurements into array.
       let readingArray = log.Message.trim().slice(0, -3).split(";");
       // Convert to key value pairs.
-      let readings = {};
       readingArray.forEach((reading) => {
         const k = reading.slice(0, reading.indexOf("=")); // get key
         const v = +reading.slice(reading.indexOf("=") + 1); // get value and convert to number
@@ -63,7 +62,7 @@ export function mapLogs(logs: Log[]) {
   return measurements;
 }
 
-export function getCurrent(data, key?: string) {
+export function getCurrent(data: any, key?: string) {
   if (data)
     if (key)
       return { values: data[key][0].value, lastUpdated: data[key][0].dateTime };

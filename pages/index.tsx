@@ -5,7 +5,6 @@ import { format } from "date-fns";
 
 import Nav from "@/components/nav";
 import Container from "@/components/container";
-import Logs from "@/components/logs";
 
 import { useLogs } from "@/lib/swr-hooks";
 import { getCurrent } from "@/lib/data-processing";
