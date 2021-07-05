@@ -33,7 +33,6 @@ const channelNumbers = {
 };
 
 export function mapLogs(logs: Log[]) {
-  // console.log(logs);
   let measurements = {};
   logs.forEach((log) => {
     // Check entry came from PALAS AQ GUARD 13808 and ignore tail-end logs
@@ -78,4 +77,38 @@ export function getCurrent(data: any, key?: string) {
       return { values, lastUpdated };
     }
   else return { values: null, lastUpdated: null };
+}
+
+export function getLineGraphData(data: any, keys: any) {
+  const colors = [
+    "hsl(176, 70%, 50%)",
+    "hsl(321, 70%, 50%)",
+    "hsl(222, 70%, 50%)",
+    "hsl(215, 70%, 50%)",
+    "hsl(198, 70%, 50%)",
+  ];
+  console.log(data);
+  console.log(keys);
+  if (data && keys) {
+    // const mappedLogs = mapLogs(data);
+    let counter = 0;
+    let result = [];
+    let lastUpdated = null;
+    keys.forEach((key) => {
+      const keyData = data[key];
+      // console.log(keyData);
+      console.log(keyData[0]?.dateTime);
+      if (keyData[0]?.dateTime > lastUpdated)
+        lastUpdated = keyData[0]?.dateTime;
+      result.push({
+        id: key,
+        color: colors[counter],
+        data: keyData.map((datum) => ({ x: datum?.dateTime, y: datum?.value })),
+      });
+      counter++;
+    });
+    console.log(result);
+    console.log(lastUpdated);
+    return { values: result, lastUpdated };
+  } else return { values: null, lastUpdated: null };
 }

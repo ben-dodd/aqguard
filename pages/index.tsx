@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
+import nz from "date-fns/locale/en-NZ";
 
 import Nav from "@/components/nav";
 import Container from "@/components/container";
 
-import { useLogs } from "@/lib/swr-hooks";
+import { useRecentLogs } from "@/lib/swr-hooks";
 import { getCurrent } from "@/lib/data-processing";
 
 export default function IndexPage() {
-  const { logs, isLoading } = useLogs();
+  const { logs, isLoading } = useRecentLogs();
   const [currentValues, setCurrentValues] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
   useEffect(() => {
@@ -24,22 +25,16 @@ export default function IndexPage() {
         <Nav />
         <Container>
           <Skeleton width={180} height={24} />
-          <Skeleton height={48} />
-          <div className="my-4" />
-          <Skeleton width={180} height={24} />
-          <Skeleton height={48} />
-          <div className="my-4" />
-          <Skeleton width={180} height={24} />
-          <Skeleton height={48} />
         </Container>
       </div>
     );
   }
   console.log(lastUpdated);
   return (
-    <div>
-      <div>
-        Last updated: {lastUpdated ? format(lastUpdated, "Ppp") : "N/A"}
+    <Container>
+      <div className="text-sm font-bold">
+        Last updated:{" "}
+        {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
       </div>
       <div className="m-8 text-xl flex justify-evenly">
         <div className="mr-4 font-bold text-blue-400 text-right">
@@ -139,6 +134,6 @@ export default function IndexPage() {
             : ""}
         </div>
       </div>
-    </div>
+    </Container>
   );
 }

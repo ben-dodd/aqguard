@@ -11,10 +11,23 @@ function fetcher(url: string) {
     });
 }
 
-export function useLogs() {
-  const { data, error } = useSWR(`/api/get-logs`, fetcher, {
+export function useAllLogs() {
+  const { data, error } = useSWR(`/api/get-all-logs`, fetcher, {
     refreshInterval: 10000,
   });
+  // const logs = data ? mapLogs(data) : null;
+  return {
+    logs: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
+export function useRecentLogs() {
+  const { data, error } = useSWR(`/api/get-recent-logs`, fetcher, {
+    refreshInterval: 5000,
+  });
+  console.log(data);
   // const logs = data ? mapLogs(data) : null;
   return {
     logs: data,

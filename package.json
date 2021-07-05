@@ -8,6 +8,9 @@
     "migrate": "node scripts/migrate-db.js"
   },
   "dependencies": {
+    "@nivo/bar": "^0.72.0",
+    "@nivo/core": "^0.72.0",
+    "@nivo/line": "^0.72.0",
     "bad-words": "^3.0.4",
     "clsx": "^1.1.1",
     "date-fns": "^2.22.1",
