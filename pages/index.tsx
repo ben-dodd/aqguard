@@ -6,6 +6,7 @@ import nz from "date-fns/locale/en-NZ";
 
 import Nav from "@/components/nav";
 import Container from "@/components/container";
+import Gauge from "@/components/gauge";
 
 import { useRecentLogs } from "@/lib/swr-hooks";
 import { getCurrent } from "@/lib/data-processing";
@@ -212,6 +213,29 @@ export default function IndexPage() {
               : ""}
           </div>
         </div>
+      </div>
+      <div className="flex mt-8">
+        <Gauge
+          value={currentValues?.temperature || 0}
+          min={-15}
+          max={60}
+          label="Temperature"
+          units="C°"
+        />
+        <Gauge
+          value={currentValues?.relativeHumidity || 0}
+          min={0}
+          max={100}
+          label="Humidity"
+          units="%"
+        />
+        <Gauge
+          value={currentValues?.aerosolPumpOutput || 0}
+          min={0}
+          max={100}
+          label="Aerosol Pump Output"
+          units="%"
+        />
       </div>
     </Container>
   );
