@@ -21,129 +21,115 @@ export default function IndexPage() {
   }, [logs]);
   if (isLoading) {
     return (
-      <div>
-        <Nav />
-        <Container>
-          <Skeleton width={180} height={24} />
-          <Skeleton height={48} />
-          <div className="my-4" />
-          <Skeleton width={180} height={24} />
-          <Skeleton height={48} />
-          <div className="my-4" />
-          <Skeleton width={180} height={24} />
-          <Skeleton height={48} />
-        </Container>
-      </div>
+      <Container>
+        <Skeleton width={180} height={24} />
+      </Container>
     );
   }
-  console.log(lastUpdated);
   return (
-    <div>
-      <Nav />
-      <Container>
-        <div>
-          Last updated:{" "}
-          {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
-        </div>
-        <div className="m-8 text-xl flex justify-evenly">
-          <div className="mr-4 font-bold text-blue-400 text-right">
-            <div>Aerosol Pump Output</div>
-            <div>Temperature of IADS</div>
-            <div>Temperature of LED</div>
-            <div>Volume Flow</div>
-            <div>Air Temperature</div>
-            <div>Relative Humidity</div>
-            <div>Air Pressure</div>
-            <div>
-              CO<sub>2</sub> Concentration
-            </div>
-            <div>Mass Concentration of VOC</div>
-            <div>Number Concentration</div>
-            <div>
-              PM<sub>1</sub>
-            </div>
-            <div>
-              PM<sub>2.5</sub>
-            </div>
-            <div>
-              PM<sub>4</sub>
-            </div>
-            <div>
-              PM<sub>10</sub>
-            </div>
-            <div>
-              PM<sub>total</sub>
-            </div>
+    <Container>
+      <div className="text-sm font-bold">
+        Last updated:{" "}
+        {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
+      </div>
+      <div className="m-8 text-xl flex justify-evenly">
+        <div className="mr-4 font-bold text-blue-400 text-right">
+          <div>Aerosol Pump Output</div>
+          <div>Temperature of IADS</div>
+          <div>Temperature of LED</div>
+          <div>Volume Flow</div>
+          <div>Air Temperature</div>
+          <div>Relative Humidity</div>
+          <div>Air Pressure</div>
+          <div>
+            CO<sub>2</sub> Concentration
           </div>
-          <div className="font-light text-gray-600">
-            <div>{currentValues?.aerosolPumpOutput.toFixed(2)}%</div>
-            <div>{currentValues?.temperatureOfIADS.toFixed(2)}C°</div>
-            <div>{currentValues?.temperatureOfLED.toFixed(2)}C°</div>
-            <div>{currentValues?.volumeFlow.toFixed(2)}L/min</div>
-            <div>{currentValues?.temperature.toFixed(2)}C°</div>
-            <div>{currentValues?.relativeHumidity.toFixed(2)}%</div>
-            <div>{currentValues?.airPressure.toFixed(2)}hPa</div>
-            <div>{currentValues?.co2.toFixed(2)}ppm</div>
-            <div>
-              {currentValues?.voc.toFixed(2)}mg/m<sup>3</sup>
-            </div>
-            <div>
-              {currentValues?.cn.toFixed(2)}p/cm<sup>3</sup>
-            </div>
-            <div>
-              {currentValues?.pm1.toFixed(2)}μg/m<sup>3</sup>
-            </div>
-            <div>
-              {currentValues?.pm25.toFixed(2)}μg/m<sup>3</sup>
-            </div>
-            <div>
-              {currentValues?.pm4.toFixed(2)}μg/m<sup>3</sup>
-            </div>
-            <div>
-              {currentValues?.pm10.toFixed(2)}μg/m<sup>3</sup>
-            </div>
-            <div>
-              {currentValues?.pmTot.toFixed(2)}μg/m<sup>3</sup>
-            </div>
+          <div>Mass Concentration of VOC</div>
+          <div>Number Concentration</div>
+          <div>
+            PM<sub>1</sub>
           </div>
-          <div className="mx-4 font-bold text-red-400 text-right">
-            {Object.keys([...Array(21).keys()]).map((k) => (
-              <div>{`Particle Size ${+k + 1}`}</div>
-            ))}
+          <div>
+            PM<sub>2.5</sub>
           </div>
-          <div className="font-light text-gray-600">
-            {currentValues
-              ? Object.keys([...Array(21).keys()]).map((k) => (
-                  <div>{currentValues[`x${+k + 110}`].toFixed(2)}</div>
-                ))
-              : ""}
+          <div>
+            PM<sub>4</sub>
           </div>
-          <div className="mx-4 font-bold text-red-400 text-right">
-            {Object.keys([...Array(21).keys()]).map((k) => (
-              <div>{`Particle Size ${+k + 22}`}</div>
-            ))}
+          <div>
+            PM<sub>10</sub>
           </div>
-          <div className="font-light text-gray-600">
-            {currentValues
-              ? Object.keys([...Array(21).keys()]).map((k) => (
-                  <div>{currentValues[`x${+k + 131}`].toFixed(2)}</div>
-                ))
-              : ""}
-          </div>
-          <div className="mx-4 font-bold text-red-400 text-right">
-            {Object.keys([...Array(21).keys()]).map((k) => (
-              <div>{`Particle Size ${+k + 43}`}</div>
-            ))}
-          </div>
-          <div className="font-light text-gray-600">
-            {currentValues
-              ? Object.keys([...Array(21).keys()]).map((k) => (
-                  <div>{currentValues[`x${+k + 152}`].toFixed(2)}</div>
-                ))
-              : ""}
+          <div>
+            PM<sub>total</sub>
           </div>
         </div>
-      </Container>
-    </div>
+        <div className="font-light text-gray-600">
+          <div>{currentValues?.aerosolPumpOutput.toFixed(2)}%</div>
+          <div>{currentValues?.temperatureOfIADS.toFixed(2)}C°</div>
+          <div>{currentValues?.temperatureOfLED.toFixed(2)}C°</div>
+          <div>{currentValues?.volumeFlow.toFixed(2)}L/min</div>
+          <div>{currentValues?.temperature.toFixed(2)}C°</div>
+          <div>{currentValues?.relativeHumidity.toFixed(2)}%</div>
+          <div>{currentValues?.airPressure.toFixed(2)}hPa</div>
+          <div>{currentValues?.co2.toFixed(2)}ppm</div>
+          <div>
+            {currentValues?.voc.toFixed(2)}mg/m<sup>3</sup>
+          </div>
+          <div>
+            {currentValues?.cn.toFixed(2)}p/cm<sup>3</sup>
+          </div>
+          <div>
+            {currentValues?.pm1.toFixed(2)}μg/m<sup>3</sup>
+          </div>
+          <div>
+            {currentValues?.pm25.toFixed(2)}μg/m<sup>3</sup>
+          </div>
+          <div>
+            {currentValues?.pm4.toFixed(2)}μg/m<sup>3</sup>
+          </div>
+          <div>
+            {currentValues?.pm10.toFixed(2)}μg/m<sup>3</sup>
+          </div>
+          <div>
+            {currentValues?.pmTot.toFixed(2)}μg/m<sup>3</sup>
+          </div>
+        </div>
+        <div className="mx-4 font-bold text-red-400 text-right">
+          {Object.keys([...Array(21).keys()]).map((k) => (
+            <div>{`Particle Size ${+k + 1}`}</div>
+          ))}
+        </div>
+        <div className="font-light text-gray-600">
+          {currentValues
+            ? Object.keys([...Array(21).keys()]).map((k) => (
+                <div>{currentValues[`x${+k + 110}`].toFixed(2)}</div>
+              ))
+            : ""}
+        </div>
+        <div className="mx-4 font-bold text-red-400 text-right">
+          {Object.keys([...Array(21).keys()]).map((k) => (
+            <div>{`Particle Size ${+k + 22}`}</div>
+          ))}
+        </div>
+        <div className="font-light text-gray-600">
+          {currentValues
+            ? Object.keys([...Array(21).keys()]).map((k) => (
+                <div>{currentValues[`x${+k + 131}`].toFixed(2)}</div>
+              ))
+            : ""}
+        </div>
+        <div className="mx-4 font-bold text-red-400 text-right">
+          {Object.keys([...Array(21).keys()]).map((k) => (
+            <div>{`Particle Size ${+k + 43}`}</div>
+          ))}
+        </div>
+        <div className="font-light text-gray-600">
+          {currentValues
+            ? Object.keys([...Array(21).keys()]).map((k) => (
+                <div>{currentValues[`x${+k + 152}`].toFixed(2)}</div>
+              ))
+            : ""}
+        </div>
+      </div>
+    </Container>
   );
 }
