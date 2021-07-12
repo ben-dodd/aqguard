@@ -42,7 +42,7 @@ export default function IndexPage() {
           {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
         </div>
         <div className="m-8 text-xl flex justify-evenly">
-          <ResponsiveLine
+          {/*<ResponsiveLine
             data={lineGraphData}
             margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
             xScale={{ type: "point" }}
@@ -106,7 +106,7 @@ export default function IndexPage() {
                 ],
               },
             ]}
-          />
+          />*/}
         </div>
       </Container>
     </div>
