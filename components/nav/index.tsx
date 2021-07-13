@@ -1,8 +1,8 @@
-import Link from 'next/link'
-import Container from '@/components/container'
-import ButtonLink from '@/components/button-link'
+import Link from "next/link";
+import Container from "@/components/container";
+import ButtonLink from "@/components/button-link";
 
-export default function Nav({ title = 'Entries' }) {
+export default function Nav({ title = "K2 Environmental::AQ Guard" }) {
   return (
     <Container className="py-4">
       <nav>
@@ -10,9 +10,9 @@ export default function Nav({ title = 'Entries' }) {
           <Link href="/">
             <a className="font-bold text-3xl">{title}</a>
           </Link>
-          <ButtonLink href="/new">New Entry</ButtonLink>
+          <ButtonLink href="/currentdata">Current Data Values</ButtonLink>
         </div>
       </nav>
     </Container>
-  )
+  );
 }

@@ -1,5 +1,5 @@
 {
-  "name": "with-mysql",
+  "name": "aqguard",
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
@@ -10,6 +10,7 @@
   "dependencies": {
     "bad-words": "^3.0.4",
     "clsx": "^1.1.1",
+    "d3": "^6.7.0",
     "date-fns": "^2.22.1",
     "dotenv": "^8.2.0",
     "next": "latest",
