@@ -134,14 +134,20 @@ export default function IndexPage() {
       </div>
       <div className="grid text-xl md:grid-flow-col">
         <div className="flex">
-          <div className="mr-4 font-bold text-blue-400">
+          <div className="mr-4 font-bold text-blue-400 text-right">
             <div>Aerosol Pump Output</div>
             <div>Temperature of IADS</div>
             <div>Temperature of LED</div>
             <div>Volume Flow</div>
             <div>Air Temperature</div>
             <div>Relative Humidity</div>
+            <div>Dew Point</div>
+            <div>Dew Point (alt)</div>
+            <div>Wet Bulb Temperature</div>
+            <div>Heat Index</div>
             <div>Air Pressure</div>
+            <div>Saturated Vapor Pressure</div>
+            <div>Actual Vapor Pressure</div>
             <div>
               CO<sub>2</sub> Concentration
             </div>

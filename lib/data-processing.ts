@@ -35,28 +35,25 @@ const channelNumbers = {
 export function mapLogs(logs: Log[]) {
   let measurements = {};
   logs.forEach((log) => {
-    // Check entry came from PALAS AQ GUARD 13808 and ignore tail-end logs
-    if (log.SysLogTag === "13808<sendVal" && log.Message !== " >57") {
-      const dateTime = new Date(log.DeviceReportedTime);
-      // Remove whitespace at front and the three CHECKSUM characters at the end. Then split measurements into array.
-      let readingArray = log.Message.trim().slice(0, -3).split(";");
-      // Convert to key value pairs.
-      readingArray.forEach((reading) => {
-        const k = reading.slice(0, reading.indexOf("=")); // get key
-        const v = +reading.slice(reading.indexOf("=") + 1); // get value and convert to number
-        // Check if key is a used channel
-        let keyName = channelNumbers[k];
-        if (+k >= 110) keyName = `x${k}`;
-        if (keyName)
-          if (measurements[keyName])
-            // Check if key is initialised in map
-            measurements[keyName] = [
-              ...measurements[keyName],
-              { dateTime, value: v },
-            ];
-          else measurements[keyName] = [{ dateTime, value: v }];
-      });
-    }
+    const dateTime = new Date(log.DeviceReportedTime);
+    // Remove whitespace at front and the three CHECKSUM characters at the end. Then split measurements into array.
+    let readingArray = log.Message.trim().slice(0, -3).split(";");
+    // Convert to key value pairs.
+    readingArray.forEach((reading) => {
+      const k = reading.slice(0, reading.indexOf("=")); // get key
+      const v = +reading.slice(reading.indexOf("=") + 1); // get value and convert to number
+      // Check if key is a used channel
+      let keyName = channelNumbers[k];
+      if (+k >= 110) keyName = `x${k}`;
+      if (keyName)
+        if (measurements[keyName])
+          // Check if key is initialised in map
+          measurements[keyName] = [
+            ...measurements[keyName],
+            { dateTime, value: v },
+          ];
+        else measurements[keyName] = [{ dateTime, value: v }];
+    });
   });
   return measurements;
 }

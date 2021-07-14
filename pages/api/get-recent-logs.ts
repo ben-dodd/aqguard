@@ -4,7 +4,8 @@ import { query } from "../../lib/db";
 const handler: NextApiHandler = async (_, res) => {
   try {
     const results = await query(`
-      SELECT ID,DeviceReportedTime,FromHost,Message,SysLogTag,ReceivedAt FROM SystemEvents
+      SELECT ID,DeviceReportedTime,FromHost,Message FROM SystemEvents
+      WHERE SysLogTag="13808<sendVal" AND Message <> " >57"
       ORDER BY DeviceReportedTime DESC
       LIMIT 10
   `);
