@@ -4,12 +4,18 @@ import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 import nz from "date-fns/locale/en-NZ";
 
-import Nav from "@/components/nav";
 import Container from "@/components/container";
 import Gauge from "@/components/gauge";
 
 import { useRecentLogs } from "@/lib/swr-hooks";
 import { getCurrent } from "@/lib/data-processing";
+import {
+  getDewPoint,
+  getWetBulbTemperature,
+  getHeatIndex,
+  getSaturatedVaporPressure,
+  getActualVaporPressure,
+} from "@/lib/calculations";
 
 export default function IndexPage() {
   const { logs, isLoading } = useRecentLogs();
@@ -83,7 +89,34 @@ export default function IndexPage() {
   };
   useEffect(() => {
     let { values, lastUpdated } = getCurrent(logs);
-    setCurrentValues(values);
+    let wetBulbTemperature = getWetBulbTemperature(
+      values?.relativeHumidity,
+      values?.temperature
+    );
+    let saturatedVaporPressure = getSaturatedVaporPressure(values?.temperature);
+    let dewpoint = getDewPoint(
+      values?.relativeHumidity,
+      values?.temperature,
+      saturatedVaporPressure,
+      false
+    );
+    let dewpointAlt = getDewPoint(
+      values?.relativeHumidity,
+      values?.temperature,
+      saturatedVaporPressure,
+      true
+    );
+    let heatIndex = getHeatIndex(values?.relativeHumidity, values?.temperature);
+    let actualVaporPressure = getActualVaporPressure(dewpoint);
+    setCurrentValues({
+      ...values,
+      dewpoint,
+      dewpointAlt,
+      heatIndex,
+      wetBulbTemperature,
+      saturatedVaporPressure,
+      actualVaporPressure,
+    });
     setLastUpdated(lastUpdated);
   }, [logs]);
   if (isLoading) {
@@ -127,38 +160,44 @@ export default function IndexPage() {
               PM<sub>10</sub>
             </div>
             <div>
-              PM<sub>total</sub>
+              PM<sub>TOT</sub>
             </div>
           </div>
           <div className="font-light text-gray-600">
-            <div>{currentValues?.aerosolPumpOutput.toFixed(2)}%</div>
-            <div>{currentValues?.temperatureOfIADS.toFixed(2)}C°</div>
-            <div>{currentValues?.temperatureOfLED.toFixed(2)}C°</div>
-            <div>{currentValues?.volumeFlow.toFixed(2)}L/min</div>
-            <div>{currentValues?.temperature.toFixed(2)}C°</div>
-            <div>{currentValues?.relativeHumidity.toFixed(2)}%</div>
-            <div>{currentValues?.airPressure.toFixed(2)}hPa</div>
-            <div>{currentValues?.co2.toFixed(2)}ppm</div>
+            <div>{currentValues?.aerosolPumpOutput?.toFixed(2)}%</div>
+            <div>{currentValues?.temperatureOfIADS?.toFixed(2)}C°</div>
+            <div>{currentValues?.temperatureOfLED?.toFixed(2)}C°</div>
+            <div>{currentValues?.volumeFlow?.toFixed(2)}L/min</div>
+            <div>{currentValues?.temperature?.toFixed(2)}C°</div>
+            <div>{currentValues?.relativeHumidity?.toFixed(2)}%</div>
+            <div>{currentValues?.dewpoint?.toFixed(2)}C°</div>
+            <div>{currentValues?.dewpointAlt?.toFixed(2)}C°</div>
+            <div>{currentValues?.wetBulbTemperature?.toFixed(2)}C°</div>
+            <div>{currentValues?.heatIndex?.toFixed(2)}C°</div>
+            <div>{currentValues?.airPressure?.toFixed(2)}hPa</div>
+            <div>{currentValues?.saturatedVaporPressure?.toFixed(2)}hPa</div>
+            <div>{currentValues?.actualVaporPressure?.toFixed(2)}hPa</div>
+            <div>{currentValues?.co2?.toFixed(2)}ppm</div>
             <div>
-              {currentValues?.voc.toFixed(2)}mg/m<sup>3</sup>
+              {currentValues?.voc?.toFixed(2)}mg/m<sup>3</sup>
             </div>
             <div>
-              {currentValues?.cn.toFixed(2)}p/cm<sup>3</sup>
+              {currentValues?.cn?.toFixed(2)}p/cm<sup>3</sup>
             </div>
             <div>
-              {currentValues?.pm1.toFixed(2)}μg/m<sup>3</sup>
+              {currentValues?.pm1?.toFixed(2)}μg/m<sup>3</sup>
             </div>
             <div>
-              {currentValues?.pm25.toFixed(2)}μg/m<sup>3</sup>
+              {currentValues?.pm25?.toFixed(2)}μg/m<sup>3</sup>
             </div>
             <div>
-              {currentValues?.pm4.toFixed(2)}μg/m<sup>3</sup>
+              {currentValues?.pm4?.toFixed(2)}μg/m<sup>3</sup>
             </div>
             <div>
-              {currentValues?.pm10.toFixed(2)}μg/m<sup>3</sup>
+              {currentValues?.pm10?.toFixed(2)}μg/m<sup>3</sup>
             </div>
             <div>
-              {currentValues?.pmTot.toFixed(2)}μg/m<sup>3</sup>
+              {currentValues?.pmTot?.toFixed(2)}μg/m<sup>3</sup>
             </div>
           </div>
         </div>
@@ -174,7 +213,7 @@ export default function IndexPage() {
           <div className="font-light text-gray-600">
             {currentValues
               ? Object.keys([...Array(21).keys()]).map((k) => (
-                  <div>{currentValues[`x${+k + 110}`].toFixed(4)}</div>
+                  <div>{currentValues[`x${+k + 110}`]?.toFixed(4)}</div>
                 ))
               : ""}
           </div>
@@ -191,7 +230,7 @@ export default function IndexPage() {
           <div className="font-light text-gray-600">
             {currentValues
               ? Object.keys([...Array(21).keys()]).map((k) => (
-                  <div>{currentValues[`x${+k + 131}`].toFixed(4)}</div>
+                  <div>{currentValues[`x${+k + 131}`]?.toFixed(4)}</div>
                 ))
               : ""}
           </div>
@@ -208,7 +247,7 @@ export default function IndexPage() {
           <div className="font-light text-gray-600">
             {currentValues
               ? Object.keys([...Array(21).keys()]).map((k) => (
-                  <div>{currentValues[`x${+k + 152}`].toFixed(4)}</div>
+                  <div>{currentValues[`x${+k + 152}`]?.toFixed(4)}</div>
                 ))
               : ""}
           </div>

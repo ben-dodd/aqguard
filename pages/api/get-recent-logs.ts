@@ -6,8 +6,10 @@ const handler: NextApiHandler = async (_, res) => {
     const results = await query(`
       SELECT ID,DeviceReportedTime,FromHost,Message,SysLogTag,ReceivedAt FROM SystemEvents
       ORDER BY DeviceReportedTime DESC
-      LIMIT 9
+      LIMIT 10
   `);
+    // AQ Guard sends 3 rows at a time
+    // Get 10 most recent rows in case some values were in dropped packets
 
     return res.json(results);
   } catch (e) {

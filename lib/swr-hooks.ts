@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { mapLogs } from "../lib/data-processing";
 
-function fetcher(url: string) {
+async function fetcher(url: string) {
   return window
     .fetch(url)
     .then((res) => res.json())
@@ -15,7 +15,6 @@ export function useAllLogs() {
   const { data, error } = useSWR(`/api/get-all-logs`, fetcher, {
     refreshInterval: 10000,
   });
-  // const logs = data ? mapLogs(data) : null;
   return {
     logs: data,
     isLoading: !error && !data,
@@ -34,4 +33,8 @@ export function useRecentLogs() {
     isLoading: !error && !data,
     isError: error,
   };
+}
+
+export function useChannel() {
+  return null;
 }
