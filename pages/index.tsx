@@ -7,7 +7,7 @@ import nz from "date-fns/locale/en-NZ";
 import Container from "@/components/container";
 import Gauge from "@/components/gauge";
 
-import { useRecentLogs } from "@/lib/swr-hooks";
+import { useLatestLogs } from "@/lib/swr-hooks";
 import { getCurrent } from "@/lib/data-processing";
 import {
   getDewPoint,
@@ -18,7 +18,7 @@ import {
 } from "@/lib/calculations";
 
 export default function IndexPage() {
-  const { logs, isLoading } = useRecentLogs();
+  const { logs, isLoading } = useLatestLogs();
   const [currentValues, setCurrentValues] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
   const pmChannels = {

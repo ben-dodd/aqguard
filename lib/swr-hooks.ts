@@ -22,12 +22,10 @@ export function useAllLogs() {
   };
 }
 
-export function useRecentLogs() {
-  const { data, error } = useSWR(`/api/get-recent-logs`, fetcher, {
+export function useLatestLogs() {
+  const { data, error } = useSWR(`/api/get-latest-logs`, fetcher, {
     refreshInterval: 5000,
   });
-  console.log(data);
-  // const logs = data ? mapLogs(data) : null;
   return {
     logs: data,
     isLoading: !error && !data,
@@ -35,6 +33,68 @@ export function useRecentLogs() {
   };
 }
 
-export function useChannel() {
-  return null;
+export function useThirtySecondLogs() {
+  const { data, error } = useSWR(`/api/get-thirty-second-logs`, fetcher, {
+    refreshInterval: 10000,
+  });
+  return {
+    logs: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
+export function useOneMinuteLogs() {
+  const { data, error } = useSWR(`/api/get-one-minute-logs`, fetcher, {
+    refreshInterval: 10000,
+  });
+  return {
+    logs: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
+export function useTenMinuteLogs() {
+  const { data, error } = useSWR(`/api/get-ten-minute-logs`, fetcher, {
+    refreshInterval: 10000,
+  });
+  return {
+    logs: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
+export function useOneWeekLogs() {
+  const { data, error } = useSWR(`/api/get-one-week-logs`, fetcher, {
+    refreshInterval: 10000,
+  });
+  return {
+    logs: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
+export function useOneHourLogs() {
+  const { data, error } = useSWR(`/api/get-one-hour-logs`, fetcher, {
+    refreshInterval: 10000,
+  });
+  return {
+    logs: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
+export function useOneDayLogs() {
+  const { data, error } = useSWR(`/api/get-one-day-logs`, fetcher, {
+    refreshInterval: 10000,
+  });
+  return {
+    logs: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
 }

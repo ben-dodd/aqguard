@@ -1,24 +1,90 @@
 import { useEffect, useState } from "react";
+import nz from "date-fns/locale/en-NZ";
 
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
-import nz from "date-fns/locale/en-NZ";
 
 import Nav from "@/components/nav";
 import Container from "@/components/container";
+import Table from "@/components/Table";
 
-import { useRecentLogs } from "@/lib/swr-hooks";
-import { getCurrent } from "@/lib/data-processing";
+import { useOneHourLogs } from "@/lib/swr-hooks";
+import {
+  getCurrent,
+  getAverages,
+  channels,
+  pmChannelsLowerLimit,
+  pmChannelsUpperLimit,
+} from "@/lib/data-processing";
 
-export default function IndexPage() {
-  const { logs, isLoading } = useRecentLogs();
-  const [currentValues, setCurrentValues] = useState(null);
+function IndexPage() {
+  const { logs, isLoading } = useOneHourLogs();
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [data, setData] = useState(null);
+
+  const columns = [
+    { Header: "Parameter", accessor: "parameter", width: "w-3/12" },
+    { Header: "Units", accessor: "units", width: "w-1/12" },
+    {
+      Header: "Current Value",
+      accessor: "currentValue",
+      Cell: ({ row }) => {
+        let isRising =
+          +row?.original?.currentValue > +row?.original?.oneMinuteAverage;
+        return (
+          <span
+            className={`font-bold ${
+              isRising ? "text-red-500" : "text-blue-500"
+            }`}
+          >
+            {row?.original?.currentValue}
+          </span>
+        );
+      },
+      width: "w-2/12",
+    },
+    {
+      Header: "One Minute Average",
+      accessor: "oneMinuteAverage",
+      width: "w-2/12",
+      Cell: ({ row }) => {
+        let isRising =
+          +row?.original?.oneMinuteAverage > +row?.original?.tenMinuteAverage;
+        return (
+          <span className={`${isRising ? "text-red-500" : "text-blue-500"}`}>
+            {row?.original?.oneMinuteAverage}
+          </span>
+        );
+      },
+    },
+    {
+      Header: "Ten Minute Average",
+      accessor: "tenMinuteAverage",
+      width: "w-2/12",
+      Cell: ({ row }) => {
+        let isRising =
+          +row?.original?.tenMinuteAverage > +row?.original?.oneHourAverage;
+        return (
+          <span className={`${isRising ? "text-red-500" : "text-blue-500"}`}>
+            {row?.original?.tenMinuteAverage}
+          </span>
+        );
+      },
+    },
+    { Header: "One Hour Average", accessor: "oneHourAverage", width: "w-2/12" },
+  ];
+
   useEffect(() => {
     let { values, lastUpdated } = getCurrent(logs);
-    setCurrentValues(values);
+    let oneMinuteAverage = getAverages(logs, 1);
+    let tenMinuteAverage = getAverages(logs, 10);
+    let oneHourAverage = getAverages(logs, 60);
     setLastUpdated(lastUpdated);
+    setData(
+      tabulateData(values, oneMinuteAverage, tenMinuteAverage, oneHourAverage)
+    );
   }, [logs]);
+
   if (isLoading) {
     return (
       <Container>
@@ -32,104 +98,41 @@ export default function IndexPage() {
         Last updated:{" "}
         {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
       </div>
-      <div className="m-8 text-xl flex justify-evenly">
-        <div className="mr-4 font-bold text-blue-400 text-right">
-          <div>Aerosol Pump Output</div>
-          <div>Temperature of IADS</div>
-          <div>Temperature of LED</div>
-          <div>Volume Flow</div>
-          <div>Air Temperature</div>
-          <div>Relative Humidity</div>
-          <div>Air Pressure</div>
-          <div>
-            CO<sub>2</sub> Concentration
-          </div>
-          <div>Mass Concentration of VOC</div>
-          <div>Number Concentration</div>
-          <div>
-            PM<sub>1</sub>
-          </div>
-          <div>
-            PM<sub>2.5</sub>
-          </div>
-          <div>
-            PM<sub>4</sub>
-          </div>
-          <div>
-            PM<sub>10</sub>
-          </div>
-          <div>
-            PM<sub>total</sub>
-          </div>
-        </div>
-        <div className="font-light text-gray-600">
-          <div>{currentValues?.aerosolPumpOutput.toFixed(2)}%</div>
-          <div>{currentValues?.temperatureOfIADS.toFixed(2)}C°</div>
-          <div>{currentValues?.temperatureOfLED.toFixed(2)}C°</div>
-          <div>{currentValues?.volumeFlow.toFixed(2)}L/min</div>
-          <div>{currentValues?.temperature.toFixed(2)}C°</div>
-          <div>{currentValues?.relativeHumidity.toFixed(2)}%</div>
-          <div>{currentValues?.airPressure.toFixed(2)}hPa</div>
-          <div>{currentValues?.co2.toFixed(2)}ppm</div>
-          <div>
-            {currentValues?.voc.toFixed(2)}mg/m<sup>3</sup>
-          </div>
-          <div>
-            {currentValues?.cn.toFixed(2)}p/cm<sup>3</sup>
-          </div>
-          <div>
-            {currentValues?.pm1.toFixed(2)}μg/m<sup>3</sup>
-          </div>
-          <div>
-            {currentValues?.pm25.toFixed(2)}μg/m<sup>3</sup>
-          </div>
-          <div>
-            {currentValues?.pm4.toFixed(2)}μg/m<sup>3</sup>
-          </div>
-          <div>
-            {currentValues?.pm10.toFixed(2)}μg/m<sup>3</sup>
-          </div>
-          <div>
-            {currentValues?.pmTot.toFixed(2)}μg/m<sup>3</sup>
-          </div>
-        </div>
-        <div className="mx-4 font-bold text-red-400 text-right">
-          {Object.keys([...Array(21).keys()]).map((k) => (
-            <div>{`Particle Size ${+k + 1}`}</div>
-          ))}
-        </div>
-        <div className="font-light text-gray-600">
-          {currentValues
-            ? Object.keys([...Array(21).keys()]).map((k) => (
-                <div>{currentValues[`x${+k + 110}`].toFixed(2)}</div>
-              ))
-            : ""}
-        </div>
-        <div className="mx-4 font-bold text-red-400 text-right">
-          {Object.keys([...Array(21).keys()]).map((k) => (
-            <div>{`Particle Size ${+k + 22}`}</div>
-          ))}
-        </div>
-        <div className="font-light text-gray-600">
-          {currentValues
-            ? Object.keys([...Array(21).keys()]).map((k) => (
-                <div>{currentValues[`x${+k + 131}`].toFixed(2)}</div>
-              ))
-            : ""}
-        </div>
-        <div className="mx-4 font-bold text-red-400 text-right">
-          {Object.keys([...Array(21).keys()]).map((k) => (
-            <div>{`Particle Size ${+k + 43}`}</div>
-          ))}
-        </div>
-        <div className="font-light text-gray-600">
-          {currentValues
-            ? Object.keys([...Array(21).keys()]).map((k) => (
-                <div>{currentValues[`x${+k + 152}`].toFixed(2)}</div>
-              ))
-            : ""}
-        </div>
-      </div>
+      {data ? <Table data={data} columns={columns} pageSize={20} /> : <div />}
     </Container>
   );
 }
+
+function tabulateData(
+  currentValue: any,
+  oneMinuteAverage: any,
+  tenMinuteAverage: any,
+  oneHourAverage: any
+) {
+  if (currentValue) {
+    let tabulatedData = [];
+    Object.entries(currentValue).forEach(([k, v]) => {
+      let parameter,
+        units = "";
+      if (channels[k]) {
+        parameter = channels[k].label;
+        units = channels[k].units;
+      } else if (+k >= 110) {
+        parameter = `PM (${pmChannelsLowerLimit[k]}-${pmChannelsUpperLimit[k]}µm)`;
+        units = "P/cm³";
+      }
+      let row = {
+        parameter,
+        units,
+        currentValue: currentValue[k].toFixed(4),
+        oneMinuteAverage: oneMinuteAverage[k].toFixed(4),
+        tenMinuteAverage: tenMinuteAverage[k].toFixed(4),
+        oneHourAverage: oneHourAverage[k].toFixed(4),
+      };
+      tabulatedData.push(row);
+    });
+    return tabulatedData;
+  } else return null;
+}
+
+export default IndexPage;
