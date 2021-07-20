@@ -6,11 +6,12 @@ const handler: NextApiHandler = async (_, res) => {
     const results = await query(`
       SELECT ID,DeviceReportedTime,FromHost,Message FROM SystemEvents
       WHERE SysLogTag="13808<sendVal" AND Message <> " >57"
-      AND DeviceReportedTime >= DATE_SUB(UTC_TIMESTAMP(),INTERVAL 1 HOUR)
+      AND DeviceReportedTime >= DATE_SUB(UTC_TIMESTAMP(),INTERVAL 120 HOUR)
       ORDER BY DeviceReportedTime DESC
   `);
     // AQ Guard sends 3 rows at a time
     // Get 10 most recent rows in case some values were in dropped packets
+    // AND DeviceReportedTime >= DATE_SUB(UTC_TIMESTAMP(),INTERVAL 1 HOUR)
 
     return res.json(results);
   } catch (e) {

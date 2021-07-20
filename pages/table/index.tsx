@@ -92,7 +92,9 @@ function IndexPage() {
       </Container>
     );
   }
-  return (
+  return !lastUpdated ? (
+    <Container>Instrument is disconnected...</Container>
+  ) : (
     <Container>
       <div className="text-sm font-bold">
         Last updated:{" "}
@@ -111,6 +113,7 @@ function tabulateData(
 ) {
   if (currentValue) {
     let tabulatedData = [];
+    console.log(currentValue);
     Object.entries(currentValue).forEach(([k, v]) => {
       let parameter,
         units = "";
@@ -124,10 +127,18 @@ function tabulateData(
       let row = {
         parameter,
         units,
-        currentValue: currentValue[k].toFixed(4),
-        oneMinuteAverage: oneMinuteAverage[k].toFixed(4),
-        tenMinuteAverage: tenMinuteAverage[k].toFixed(4),
-        oneHourAverage: oneHourAverage[k].toFixed(4),
+        currentValue: isNaN(parseFloat(currentValue[k]))
+          ? "N/A"
+          : currentValue[k].toFixed(4),
+        oneMinuteAverage: isNaN(parseFloat(oneMinuteAverage[k]))
+          ? "N/A"
+          : oneMinuteAverage[k].toFixed(4),
+        tenMinuteAverage: isNaN(parseFloat(tenMinuteAverage[k]))
+          ? "N/A"
+          : tenMinuteAverage[k].toFixed(4),
+        oneHourAverage: isNaN(parseFloat(oneHourAverage[k]))
+          ? "N/A"
+          : oneHourAverage[k].toFixed(4),
       };
       tabulatedData.push(row);
     });
