@@ -1,8 +1,6 @@
-import Nav from "@/components/nav";
-
 function Container({ className = "", children }) {
   return (
-    <div className={"container mx-auto px-8 " + className}>{children}</div>
+    <div className={"mx-auto px-2 text-gray-800 " + className}>{children}</div>
   );
 }
 
