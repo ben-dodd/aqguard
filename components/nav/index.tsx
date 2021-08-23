@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import ButtonLink from "@/components/button-link";
 import logo from "../../ref/logo.png";
 
@@ -9,8 +8,8 @@ export default function Nav() {
       <div className="bg-green-400 p-2 sm:flex sm:justify-between sm:items-center ">
         <Link href="/">
           <div className="flex p-2 items-center">
-            <Image
-              src={logo}
+            <img
+              src={"/img/logo.png"}
               width={40}
               height={40}
               alt="K2 Environmental Ltd"
