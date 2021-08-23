@@ -21,25 +21,22 @@ export default function Historical() {
     </Container>
   ) : (
     <Container>
-      {Object.entries(days).map(([day, count]: [string, number]) => {
-        console.log(intervalToDuration({ start: 0, end: (count * 10) / 2 }));
-        return (
-          <div className="flex p-2 m-2 bg-green-200 text-xs">
-            <div className="w-3/5 font-bold">
-              {format(new Date(day), "d MMMM yyyy")}
-            </div>
-            <div className="w-2/5">
-              {formatDuration(
-                intervalToDuration({
-                  start: 0,
-                  end: ((count * 10) / 2) * 1000,
-                }),
-                { format: ["hours", "minutes"], delimiter: ", " }
-              )}
-            </div>
+      {Object.entries(days).map(([day, count]: [string, number]) => (
+        <div className="flex p-2 m-2 bg-green-200 text-xs">
+          <div className="w-3/5 font-bold">
+            {format(new Date(day), "d MMMM yyyy")}
           </div>
-        );
-      })}
+          <div className="w-2/5">
+            {formatDuration(
+              intervalToDuration({
+                start: 0,
+                end: ((count * 10) / 2) * 1000,
+              }),
+              { format: ["hours", "minutes"], delimiter: ", " }
+            )}
+          </div>
+        </div>
+      ))}
     </Container>
   );
 }
