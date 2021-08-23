@@ -4,18 +4,11 @@ import nz from "date-fns/locale/en-NZ";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 
-import Nav from "@/components/nav";
 import Container from "@/components/container";
-import Table from "@/components/Table";
+import Table from "@/components/table";
 
 import { useOneHourLogs } from "@/lib/swr-hooks";
-import {
-  getCurrent,
-  getAverages,
-  channels,
-  pmChannelsLowerLimit,
-  pmChannelsUpperLimit,
-} from "@/lib/data-processing";
+import { getCurrent, getAverages, channels } from "@/lib/data-processing";
 
 function IndexPage() {
   const { logs, isLoading } = useOneHourLogs();
@@ -100,7 +93,7 @@ function IndexPage() {
         Last updated:{" "}
         {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
       </div>
-      {data ? <Table data={data} columns={columns} pageSize={20} /> : <div />}
+      {data ? <Table data={data} columns={columns} /> : <div />}
     </Container>
   );
 }
@@ -120,9 +113,6 @@ function tabulateData(
       if (channels[k]) {
         parameter = channels[k].label;
         units = channels[k].units;
-      } else if (+k >= 110) {
-        parameter = `PM (${pmChannelsLowerLimit[k]}-${pmChannelsUpperLimit[k]}µm)`;
-        units = "P/cm³";
       }
       let row = {
         parameter,
