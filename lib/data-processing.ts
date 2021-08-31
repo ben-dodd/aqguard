@@ -1,4 +1,5 @@
 import { sub, format } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 
 interface Log {
   DeviceReportedTime: string;
@@ -626,7 +627,10 @@ export function mapLogs(logs: Log[]) {
 export function getCurrent(data: any, key?: string) {
   if (data)
     if (key)
-      return { values: data[key][0].value, lastUpdated: data[key][0].dateTime };
+      return {
+        values: data[key][0].value,
+        lastUpdated: utcToZonedTime(data[key][0].dateTime, "Pacific/Auckland"),
+      };
     else {
       let values = {};
       let lastUpdated = null;
@@ -635,7 +639,10 @@ export function getCurrent(data: any, key?: string) {
         if (data[k][0].dateTime > lastUpdated)
           lastUpdated = data[k][0].dateTime;
       });
-      return { values, lastUpdated };
+      return {
+        values,
+        lastUpdated: utcToZonedTime(lastUpdated, "Pacific/Auckland"),
+      };
     }
   else return { values: null, lastUpdated: null };
 }
