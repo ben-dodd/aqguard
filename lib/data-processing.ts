@@ -702,5 +702,7 @@ export function getLineGraphData(data: any, keys: any) {
 }
 
 export function isDeviceConnected(lastUpdated: Date) {
+  console.log(lastUpdated);
+  console.log(sub(new Date(), { minutes: 1 }));
   return lastUpdated > sub(new Date(), { minutes: 1 });
 }

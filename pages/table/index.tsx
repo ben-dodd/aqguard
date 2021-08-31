@@ -5,7 +5,6 @@ import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 
 import Container from "@/components/container";
-import Table from "@/components/table";
 
 import { useOneHourLogs } from "@/lib/swr-hooks";
 import { getCurrent, getAverages, channels } from "@/lib/data-processing";
@@ -92,7 +91,6 @@ function IndexPage() {
       <div className="text-sm font-bold">
         Last updated: {lastUpdated ? format(lastUpdated, "Ppp") : "N/A"}
       </div>
-      {data ? <Table data={data} columns={columns} /> : <div />}
     </Container>
   );
 }
