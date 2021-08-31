@@ -42,9 +42,10 @@ export function useLatestLogs() {
 }
 
 export function useThirtySecondLogs() {
-  const { data, error } = useSWR(`/api/get-thirty-second-logs`, mappedFetcher, {
-    refreshInterval: 10000,
-  });
+  const { data, error } = useSWR(
+    `/api/get-thirty-second-logs`,
+    mappedFetcherCA
+  );
   return {
     logs: data,
     isLoading: !error && !data,

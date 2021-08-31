@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
-import nz from "date-fns/locale/en-NZ";
+// import nz from "date-fns/locale/en-NZ";
 
 import Container from "@/components/container";
 
@@ -84,8 +84,7 @@ export default function CurrentData() {
         </div>
       )}
       <div className="text-xs text-center">
-        Last updated:{" "}
-        {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
+        Last updated: {lastUpdated ? format(lastUpdated, "Ppp") : "N/A"}
       </div>
       {[
         { header: "General Air Quality Indicators", accessor: "general" },

@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
-import nz from "date-fns/locale/en-NZ";
+// import nz from "date-fns/locale/en-NZ";
 
 import Nav from "@/components/nav";
 import Container from "@/components/container";
@@ -38,8 +38,7 @@ export default function IndexPage() {
     <div>
       <Container>
         <div className="text-sm font-bold">
-          Last updated:{" "}
-          {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
+          Last updated: {lastUpdated ? format(lastUpdated, "Ppp") : "N/A"}
         </div>
         <div className="m-8 text-xl flex justify-evenly">
           {/*<ResponsiveLine

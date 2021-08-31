@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import nz from "date-fns/locale/en-NZ";
+// import nz from "date-fns/locale/en-NZ";
 
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
@@ -90,8 +90,7 @@ function IndexPage() {
   ) : (
     <Container>
       <div className="text-sm font-bold">
-        Last updated:{" "}
-        {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
+        Last updated: {lastUpdated ? format(lastUpdated, "Ppp") : "N/A"}
       </div>
       {data ? <Table data={data} columns={columns} /> : <div />}
     </Container>
