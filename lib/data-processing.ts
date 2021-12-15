@@ -1,14 +1,6 @@
 import { sub, format } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
-
-interface Log {
-  DeviceReportedTime: string;
-  FromHost: string;
-  ID: number;
-  Message: string;
-  ReceivedAt: string;
-  SysLogTag: string;
-}
+import { LogObject, ProcessObject } from "@/lib/types";
 
 export const channels = {
   23: {
@@ -66,6 +58,48 @@ export const channels = {
     label: "Mass Concentration of VOC",
     units: "mg/m³",
     accessor: "voc",
+    group: "voc",
+  },
+  52: {
+    label: "Number Concentration of VOC",
+    units: "ppb",
+    accessor: "vocPPB",
+    group: "voc",
+  },
+  53: {
+    label: "TVOC as Formaldehyde",
+    units: "mg/m³",
+    accessor: "formaldehyde",
+    group: "voc",
+  },
+  54: {
+    label: "TVOC as Acetone",
+    units: "mg/m³",
+    accessor: "formaldehyde",
+    group: "voc",
+  },
+  55: {
+    label: "TVOC as Benzene",
+    units: "mg/m³",
+    accessor: "formaldehyde",
+    group: "voc",
+  },
+  56: {
+    label: "TVOC as Butanal",
+    units: "mg/m³",
+    accessor: "formaldehyde",
+    group: "voc",
+  },
+  57: {
+    label: "TVOC as Toluene",
+    units: "mg/m³",
+    accessor: "formaldehyde",
+    group: "voc",
+  },
+  58: {
+    label: "TVOC as Methyl Ethyl Ketone",
+    units: "mg/m³",
+    accessor: "formaldehyde",
     group: "voc",
   },
   60: {
@@ -600,7 +634,7 @@ export function convertToMap(data: any) {
   return dataMap;
 }
 
-export function mapLogs(logs: Log[]) {
+export function mapLogs(logs: LogObject[]) {
   let measurements = {};
   logs.forEach((log) => {
     let dateTime = new Date(log.DeviceReportedTime);
@@ -622,6 +656,56 @@ export function mapLogs(logs: Log[]) {
     });
   });
   return measurements;
+}
+
+export function mapProcesses(processes: ProcessObject[]) {
+  let mappedProcesses = {};
+  processes.forEach((process) => {
+    if (!mappedProcesses[process.activity_id]) {
+      mappedProcesses[process?.activity_id] = {
+        processName: process?.activity_name,
+        sds: {},
+      };
+    }
+    if (!mappedProcesses[process?.activity_id]?.sds[process?.sds_id]) {
+      mappedProcesses[process?.activity_id].sds[process?.sds_id] = {
+        productName: process?.sds_name,
+        normalAmount: process?.sds_normal_amount,
+        upperAmount: process?.sds_upper_amount,
+        substances: {},
+      };
+    }
+    if (
+      !mappedProcesses[process?.activity_id]?.sds[process?.sds_id]?.substances[
+        process?.substance_id
+      ]
+    ) {
+      mappedProcesses[process?.activity_id].sds[process?.sds_id].substances[
+        process?.substance_id
+      ] = {
+        substanceName: process?.substance_name,
+        upperLimit: process?.substance_upper_limit,
+        lowerLimit: process?.substance_lower_limit,
+        standards: {},
+      };
+    }
+    if (
+      !mappedProcesses[process?.activity_id]?.sds[process?.sds_id]?.substances[
+        process?.substance_id
+      ]?.standards[process?.standard_id]
+    ) {
+      mappedProcesses[process?.activity_id].sds[process?.sds_id].substances[
+        process?.substance_id
+      ].standards[process?.standard_id] = {
+        limit: process?.standard_limit,
+        unit: process?.standard_unit,
+        type: process?.standard_type_name,
+        organisation: process?.standard_organisation_name,
+        year: new Date(process?.standard_year),
+      };
+    }
+  });
+  return mappedProcesses;
 }
 
 export function getCurrent(data: any, key?: string) {
@@ -647,7 +731,7 @@ export function getCurrent(data: any, key?: string) {
   else return { values: null, lastUpdated: null };
 }
 
-export function getDailyBreakdown(logs: Log[]) {
+export function getDailyBreakdown(logs: LogObject[]) {
   let days = {};
   logs?.forEach((log) => {
     // Map each log to day

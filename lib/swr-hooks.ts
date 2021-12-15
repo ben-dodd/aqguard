@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { mapLogs } from "../lib/data-processing";
+import { mapLogs, mapProcesses } from "../lib/data-processing";
 
 async function mappedFetcher(url: string) {
   return window
@@ -16,6 +16,15 @@ async function rawFetcher(url: string) {
     .then((res) => res.json())
     .then((data) => {
       return data;
+    });
+}
+
+async function processFetcher(url: string) {
+  return window
+    .fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      return data ? mapProcesses(data) : null;
     });
 }
 
@@ -102,6 +111,28 @@ export function useOneDayLogs() {
   });
   return {
     logs: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
+export function useJobs() {
+  const { data, error } = useSWR(`/api/get-all-jobs`, rawFetcher);
+  return {
+    jobs: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
+export function useProcesses(job_id: number) {
+  const { data, error } = useSWR(
+    `/api/get-job-processes?job_id=${job_id}`,
+    processFetcher
+  );
+  console.log(data);
+  return {
+    processes: data,
     isLoading: !error && !data,
     isError: error,
   };

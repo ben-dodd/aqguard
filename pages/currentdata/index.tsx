@@ -18,6 +18,9 @@ import {
   getHeatIndex,
   getSaturatedVaporPressure,
   getActualVaporPressure,
+  vocMassToPPB,
+  ppbToMgm3,
+  getMolecularVolume,
 } from "@/lib/calculations";
 
 export default function CurrentData() {
@@ -47,10 +50,25 @@ export default function CurrentData() {
         saturatedVaporPressure,
         true
       );
+      let vocPPB = vocMassToPPB(values["51"], values["40"], values["47"]);
+      let molecularVolume = getMolecularVolume(values["40"], values["47"]);
+      let tvocAsFormaldehyde = ppbToMgm3(vocPPB, 30.031, molecularVolume);
+      let tvocAsAcetone = ppbToMgm3(vocPPB, 58.08, molecularVolume);
+      let tvocAsBenzene = ppbToMgm3(vocPPB, 78.11, molecularVolume);
+      let tvocAsButanal = ppbToMgm3(vocPPB, 72.11, molecularVolume);
+      let tvocAsToluene = ppbToMgm3(vocPPB, 92.14, molecularVolume);
+      let tvocAsMEK = ppbToMgm3(vocPPB, 72.11, molecularVolume);
       let heatIndex = getHeatIndex(values["41"], values["40"]);
       let actualVaporPressure = getActualVaporPressure(dewpoint);
       let allValues = convertToMap({
         ...values,
+        52: vocPPB,
+        53: tvocAsFormaldehyde,
+        54: tvocAsAcetone,
+        55: tvocAsBenzene,
+        56: tvocAsButanal,
+        57: tvocAsToluene,
+        58: tvocAsMEK,
         66: dewpoint,
         67: dewpointAlt,
         68: heatIndex,

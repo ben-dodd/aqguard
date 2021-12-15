@@ -88,12 +88,60 @@ export function getHeatIndex(rh: number, temp: number) {
   return f2c(0.5 * (ft + 61.0 + (ft - 68) * 0.12 + rh * 0.094));
 }
 
+export function getMolecularVolume(temp: number, pressure: number) {
+  console.log(`Temp: ${temp}, Pressure: ${pressure}`);
+  return 22.41 * (c2k(temp) / 273) * (1013 / pressure);
+}
+
+export function ppbToMgm3(
+  ppb: number,
+  molarMass: number,
+  molecularVolume: number
+) {
+  return (ppb / 1000) * (molarMass / molecularVolume);
+}
+
+export function mgm3ToPPB(
+  mass: number,
+  molarMass: number,
+  molecularVolume: number
+) {
+  console.log(
+    `Mass: ${mass}, molarMass: ${molarMass}, getMolecularVolume: ${molecularVolume}`
+  );
+  return mass * (molecularVolume / molarMass) * 1000;
+}
+
+export function vocMassToPPB(mass: number, temp: number, pressure: number) {
+  // AQGuard calculates ppb to mg/m3 before sending data
+  // Conversion is done by the following principle which is described in:
+  // Mølhave L, Clausen G, Berglund B, et al. (1997) Total Volatile Organic Compounds (TVOC) in Indoor Air Quality Investigations. Indoor Air 7:225–240.
+  // An average molecular mass of 110 g/mol is used for conversion of ppb to µg/m3, representing a mixture of typically found VOCs.
+  // This is a typical conversion-method from ppb/ppm to µg or mg/m³ at standard conditions 1013mbar and 0°C.
+  const molarMass = 110;
+  const molecularVolume = getMolecularVolume(temp, pressure);
+  console.log(molecularVolume);
+  return mgm3ToPPB(mass, molarMass, molecularVolume);
+}
+
+// Celsius to Fahrenheit
 export function c2f(t: number) {
   //(0°C × 9/5) + 32 = 32°F
   return (t * 9) / 5 + 32;
 }
 
+// Fahrenheit to Celsius
 export function f2c(t: number) {
   // (0°F − 32) × 5/9 = -17.78°C
   return ((t - 32) * 5) / 9;
+}
+
+// Celsius to Kelvin
+export function c2k(t: number) {
+  return t + 273;
+}
+
+// Kelvin to Celsius
+export function k2c(t: number) {
+  return t - 273;
 }

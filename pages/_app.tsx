@@ -3,7 +3,7 @@ import Nav from "@/components/nav";
 
 function App({ Component, pageProps }) {
   return (
-    <div className="w-screen">
+    <div className="w-screen h-screen">
       <Nav />
       <Component {...pageProps} />
     </div>
