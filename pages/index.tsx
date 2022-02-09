@@ -11,8 +11,7 @@ import { useLatestLogs, useProcesses } from "@/lib/swr-hooks";
 
 export default function IndexPage() {
   const { logs, isLoading } = useLatestLogs();
-  const { job } = useAtom(jobAtom);
-  const { processes } = useProcesses(job?.id);
+  // const { processes } = useProcesses(job?.id);
 
   const [lastUpdated, setLastUpdated] = useState(null);
   useEffect(() => {

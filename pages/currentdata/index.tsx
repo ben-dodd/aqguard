@@ -69,7 +69,7 @@ export default function CurrentData() {
         56: tvocAsButanal,
         57: tvocAsToluene,
         58: tvocAsMEK,
-        66: dewpoint,
+        // 66: dewpoint,
         67: dewpointAlt,
         68: heatIndex,
         69: wetBulbTemperature,
@@ -105,29 +105,35 @@ export default function CurrentData() {
         Last updated:{" "}
         {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
       </div>
-      {[
-        { header: "General Air Quality Indicators", accessor: "general" },
-        { header: "Volatile Organic Compounds", accessor: "voc" },
-        { header: "Particulate Matter", accessor: "pm" },
-        { header: "Equipment Status", accessor: "equipment" },
-        { header: "PM Size Bands", accessor: "pmBand" },
-      ].map((group) => (
-        <>
-          <div className="mb-2 font-bold pt-8 text-center">{group?.header}</div>
-          <div className="w-full px-4 bg-blue-100">
-            {currentValues?.[group?.accessor]?.map((row: any) => (
-              <div className="border-b border-white py-2 flex text-xs">
-                <div className="w-3/5">{row?.label}</div>
-                <div className="w-2/5">
-                  {isNaN(row?.value)
-                    ? "N/A"
-                    : `${row?.value?.toFixed(row?.toFixed || 2)} ${row?.unit}`}
+      <div className="grid grid-cols-2">
+        {[
+          { header: "General Air Quality Indicators", accessor: "general" },
+          { header: "Volatile Organic Compounds", accessor: "voc" },
+          { header: "Particulate Matter", accessor: "pm" },
+          { header: "Equipment Status", accessor: "equipment" },
+          { header: "PM Size Bands", accessor: "pmBand" },
+        ].map((group) => (
+          <div className="px-4">
+            <div className="mb-2 font-bold pt-8 text-center">
+              {group?.header}
+            </div>
+            <div className="w-full px-4 bg-blue-100">
+              {currentValues?.[group?.accessor]?.map((row: any) => (
+                <div className="border-b border-white py-2 flex text-xs">
+                  <div className="w-3/5">{row?.label}</div>
+                  <div className="w-2/5">
+                    {isNaN(row?.value)
+                      ? "N/A"
+                      : `${row?.value?.toFixed(row?.toFixed || 2)} ${
+                          row?.unit
+                        }`}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </>
-      ))}
+        ))}
+      </div>
     </Container>
   );
 }

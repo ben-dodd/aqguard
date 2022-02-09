@@ -33,7 +33,7 @@ export default function Nav() {
                 Historical
               </ButtonLink>
               <ButtonLink href="/reference" className="w-1/3">
-                Admin Shit
+                Admin
               </ButtonLink>
             </div>
           ) : (
@@ -41,12 +41,12 @@ export default function Nav() {
               <ButtonLink href="/currentdata" className="w-1/3">
                 Current
               </ButtonLink>
-              <ButtonLink href="/historical" className="mx-2 w-1/3">
-                Historical
+              <ButtonLink href="/trends" className="mx-2 w-1/3">
+                Trends
               </ButtonLink>
-              <ButtonLink href="/reference" className="w-1/3">
+              {/* <ButtonLink href="/reference" className="w-1/3">
                 Reference
-              </ButtonLink>
+              </ButtonLink> */}
             </div>
           )
         ) : (
