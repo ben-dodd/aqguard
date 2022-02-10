@@ -26,8 +26,8 @@ export default function Nav() {
         {isAuthorised ? (
           job?.reference === "K2" ? (
             <div className="flex w-full justify-between border-t border-gray-200 pt-2 sm:border-none">
-              <ButtonLink href="/currentdata" className="w-1/3">
-                Current
+              <ButtonLink href="/current/table" className="w-1/3">
+                Table
               </ButtonLink>
               <ButtonLink href="/historical" className="mx-2 w-1/3">
                 Historical
@@ -38,10 +38,13 @@ export default function Nav() {
             </div>
           ) : (
             <div className="flex w-full justify-between border-t border-gray-200 pt-2 sm:border-none">
-              <ButtonLink href="/currentdata" className="w-1/3">
-                Current
+              <ButtonLink href="/current/dashboard" className="w-1/3">
+                Dashboard
               </ButtonLink>
-              <ButtonLink href="/trends" className="mx-2 w-1/3">
+              <ButtonLink href="/current/table" className="mx-2 w-1/3">
+                Table View
+              </ButtonLink>
+              <ButtonLink href="/trends" className="w-1/3">
                 Trends
               </ButtonLink>
               {/* <ButtonLink href="/reference" className="w-1/3">
