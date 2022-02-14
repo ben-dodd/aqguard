@@ -111,7 +111,7 @@ export default function Trends() {
           />
           <Select
             options={aqOptions}
-            className="w-1/2 ml-2"
+            className="w-1/2 mx-2"
             onChange={(e) => setCustom2(e.value)}
           />
         </div>
