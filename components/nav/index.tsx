@@ -10,7 +10,7 @@ export default function Nav({ lastUpdated }) {
   const [job] = useAtom(jobAtom);
   return (
     <nav>
-      <div className="bg-green-500 p-2 sm:flex sm:justify-between sm:items-center w-full pr-8">
+      <div className="bg-green-400 p-2 sm:flex sm:justify-between sm:items-center w-full pr-8">
         <div>
           <Link href="/">
             <div className="flex p-2 items-center">
