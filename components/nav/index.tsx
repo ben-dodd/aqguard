@@ -37,15 +37,18 @@ export default function Nav() {
               </ButtonLink>
             </div>
           ) : (
-            <div className="flex w-full justify-between border-t border-gray-200 pt-2 sm:border-none">
-              <ButtonLink href="/current/dashboard" className="w-1/3">
+            <div className="flex w-full border-t border-gray-200 pt-2 sm:border-none">
+              <ButtonLink href="/current/dashboard" className="mx-2">
                 Dashboard
               </ButtonLink>
-              <ButtonLink href="/current/table" className="mx-2 w-1/3">
-                Table View
+              <ButtonLink href="/current/table" className="mr-2">
+                Current Values
               </ButtonLink>
-              <ButtonLink href="/trends" className="w-1/3">
-                Trends
+              <ButtonLink href="/table" className="mr-2">
+                Data Table
+              </ButtonLink>
+              <ButtonLink href="/trends" className="">
+                Charts
               </ButtonLink>
               {/* <ButtonLink href="/reference" className="w-1/3">
                 Reference

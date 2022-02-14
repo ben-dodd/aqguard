@@ -6,7 +6,7 @@ const handler: NextApiHandler = async (_, res) => {
     const results = await query(`
       SELECT ID,DeviceReportedTime,FromHost,Message FROM SystemEvents
       WHERE SysLogTag="13808<sendVal" AND Message <> " >57"
-      ORDER BY DeviceReportedTime DESC
+      ORDER BY DeviceReportedTime ASC
   `);
 
     // Add LIMIT 9 to reduce results

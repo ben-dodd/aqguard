@@ -29,7 +29,7 @@ async function processFetcher(url: string) {
 }
 
 export function useAllLogs() {
-  const { data, error } = useSWR(`/api/get-all-logs`, rawFetcher, {
+  const { data, error } = useSWR(`/api/get-all-logs`, mappedFetcher, {
     refreshInterval: 10000,
   });
   return {

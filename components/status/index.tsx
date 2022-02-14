@@ -1,7 +1,5 @@
-import { isDeviceConnected } from "@/lib/data-processing";
-
-import { format } from "date-fns";
-import nz from "date-fns/locale/en-NZ";
+import { dateTimeFormat, isDeviceConnected } from "@/lib/data-processing";
+import dayjs from "dayjs";
 
 export default function Status({ lastUpdated }) {
   return (
@@ -14,8 +12,7 @@ export default function Status({ lastUpdated }) {
       )}
 
       <div className="text-sm font-bold">
-        Last updated:{" "}
-        {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
+        Last updated: {lastUpdated || "N/A"}
       </div>
     </div>
   );

@@ -89,7 +89,7 @@ export function getHeatIndex(rh: number, temp: number) {
 }
 
 export function getMolecularVolume(temp: number, pressure: number) {
-  console.log(`Temp: ${temp}, Pressure: ${pressure}`);
+  // console.log(`Temp: ${temp}, Pressure: ${pressure}`);
   return 22.41 * (c2k(temp) / 273) * (1013 / pressure);
 }
 
@@ -106,9 +106,9 @@ export function mgm3ToPPB(
   molarMass: number,
   molecularVolume: number
 ) {
-  console.log(
-    `Mass: ${mass}, molarMass: ${molarMass}, getMolecularVolume: ${molecularVolume}`
-  );
+  // console.log(
+  //   `Mass: ${mass}, molarMass: ${molarMass}, getMolecularVolume: ${molecularVolume}`
+  // );
   return mass * (molecularVolume / molarMass) * 1000;
 }
 
@@ -120,7 +120,7 @@ export function vocMassToPPB(mass: number, temp: number, pressure: number) {
   // This is a typical conversion-method from ppb/ppm to µg or mg/m³ at standard conditions 1013mbar and 0°C.
   const molarMass = 110;
   const molecularVolume = getMolecularVolume(temp, pressure);
-  console.log(molecularVolume);
+  // console.log(molecularVolume);
   return mgm3ToPPB(mass, molarMass, molecularVolume);
 }
 

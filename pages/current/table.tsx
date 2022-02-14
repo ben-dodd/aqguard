@@ -6,11 +6,12 @@ import nz from "date-fns/locale/en-NZ";
 
 import Container from "@/components/container";
 
-import { useLatestLogs } from "@/lib/swr-hooks";
+import { useAllLogs, useLatestLogs } from "@/lib/swr-hooks";
 import {
   getCurrent,
   isDeviceConnected,
   convertToMap,
+  getLastUpdated,
 } from "@/lib/data-processing";
 import {
   getDewPoint,
@@ -22,66 +23,13 @@ import {
   ppbToMgm3,
   getMolecularVolume,
 } from "@/lib/calculations";
+import { MappedLogObject } from "@/lib/types";
 
 export default function CurrentData() {
-  const { logs, isLoading } = useLatestLogs();
-  const [currentValues, setCurrentValues] = useState(null);
-  const [lastUpdated, setLastUpdated] = useState(null);
-  useEffect(() => {
-    if (logs) {
-      let { values, lastUpdated } = getCurrent(logs);
-      // Add extra values
-      let wetBulbTemperature = getWetBulbTemperature(
-        values["41"],
-        values["40"]
-      );
-      let saturatedVaporPressure = getSaturatedVaporPressure(
-        values?.temperature
-      );
-      let dewpoint = getDewPoint(
-        values["41"],
-        values["40"],
-        saturatedVaporPressure,
-        false
-      );
-      let dewpointAlt = getDewPoint(
-        values["41"],
-        values["40"],
-        saturatedVaporPressure,
-        true
-      );
-      let vocPPB = vocMassToPPB(values["51"], values["40"], values["47"]);
-      let molecularVolume = getMolecularVolume(values["40"], values["47"]);
-      let tvocAsFormaldehyde = ppbToMgm3(vocPPB, 30.031, molecularVolume);
-      let tvocAsAcetone = ppbToMgm3(vocPPB, 58.08, molecularVolume);
-      let tvocAsBenzene = ppbToMgm3(vocPPB, 78.11, molecularVolume);
-      let tvocAsButanal = ppbToMgm3(vocPPB, 72.11, molecularVolume);
-      let tvocAsToluene = ppbToMgm3(vocPPB, 92.14, molecularVolume);
-      let tvocAsMEK = ppbToMgm3(vocPPB, 72.11, molecularVolume);
-      let heatIndex = getHeatIndex(values["41"], values["40"]);
-      let actualVaporPressure = getActualVaporPressure(dewpoint);
-      let allValues = convertToMap({
-        ...values,
-        52: vocPPB,
-        53: tvocAsFormaldehyde,
-        54: tvocAsAcetone,
-        55: tvocAsBenzene,
-        56: tvocAsButanal,
-        57: tvocAsToluene,
-        58: tvocAsMEK,
-        // 66: dewpoint,
-        67: dewpointAlt,
-        68: heatIndex,
-        69: wetBulbTemperature,
-        70: saturatedVaporPressure,
-        71: actualVaporPressure,
-      });
-      setCurrentValues(allValues);
-      setLastUpdated(lastUpdated);
-    }
-  }, [logs]);
+  const { logs, isLoading } = useAllLogs();
+  const currentValues = convertToMap(logs ? logs[logs?.length - 1] : {});
+  const lastUpdated = getLastUpdated(logs);
 
-  console.log(currentValues);
   // TODO add option to get averages
 
   return isLoading ? (
@@ -102,8 +50,7 @@ export default function CurrentData() {
         </div>
       )}
       <div className="text-xs text-center">
-        Last updated:{" "}
-        {lastUpdated ? format(lastUpdated, "Ppp", { locale: nz }) : "N/A"}
+        Last updated: {lastUpdated || "N/A"}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         {[
