@@ -14,5 +14,5 @@ module.exports = {
   variants: {
     backgroundColor: ["odd", "even", "hover", "disabled", "focus", "active"],
   },
-  plugins: [],
+  plugins: ["maxWidth", "margin"],
 };
