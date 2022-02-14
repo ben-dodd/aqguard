@@ -36,10 +36,10 @@ export default function Nav({ lastUpdated }) {
           }CONNECTED // LAST UPDATED: ${lastUpdated || "N/A"}`}</div>
         </div>
         <div className="flex border-t border-gray-200 pt-2 sm:border-none">
-          <ButtonLink href="/" className="mx-2">
+          <ButtonLink href="/" className="">
             Dashboard
           </ButtonLink>
-          <ButtonLink href="/current/table" className="mr-2">
+          <ButtonLink href="/current/table" className="mx-2">
             Current Values
           </ButtonLink>
           {/* <ButtonLink href="/table" className="mr-2">
