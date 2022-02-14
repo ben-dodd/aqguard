@@ -40,7 +40,7 @@ export function mapLogs(logs: LogObject[]) {
     console.log(logs);
     logs.forEach((log) => {
       let dateTime = dayjs(log.DeviceReportedTime)
-        .add(13, "hour")
+        // .add(13, "hour")
         .format(dateTimeFormat);
       // Remove whitespace at front and the three CHECKSUM characters at the end. Then split measurements into array.
       let readingArray = log.Message.trim().slice(0, -3).split(";");
