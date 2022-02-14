@@ -44,15 +44,12 @@ export default function Nav() {
               <ButtonLink href="/current/table" className="mr-2">
                 Current Values
               </ButtonLink>
-              <ButtonLink href="/table" className="mr-2">
+              {/* <ButtonLink href="/table" className="mr-2">
                 Data Table
-              </ButtonLink>
+              </ButtonLink> */}
               <ButtonLink href="/trends" className="">
                 Charts
               </ButtonLink>
-              {/* <ButtonLink href="/reference" className="w-1/3">
-                Reference
-              </ButtonLink> */}
             </div>
           )
         ) : (
