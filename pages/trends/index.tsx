@@ -186,6 +186,7 @@ export default function Trends() {
                 />
               </YAxis>
               <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+              <Tooltip />
               <Line
                 yAxisId="temperature"
                 type="monotone"

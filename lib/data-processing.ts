@@ -277,6 +277,10 @@ export function isDeviceConnected(lastUpdated: string) {
 }
 
 export const properties = {
+  isoDate: {
+    label: "Date",
+    accessor: "isoDate",
+  },
   aerosolPumpOutput: {
     label: "Aerosol Pump Output",
     units: "%",

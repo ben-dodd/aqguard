@@ -3,9 +3,18 @@ import { isAuthorisedAtom, jobAtom } from "@/lib/atoms";
 
 import Link from "next/link";
 import ButtonLink from "@/components/button-link";
-import { isDeviceConnected } from "@/lib/data-processing";
+import { CSVLink } from "react-csv";
+import {
+  getLastUpdated,
+  isDeviceConnected,
+  properties,
+} from "@/lib/data-processing";
+import { useAllLogs } from "@/lib/swr-hooks";
+import dayjs from "dayjs";
 
-export default function Nav({ lastUpdated }) {
+export default function Nav() {
+  const { logs, isLoading } = useAllLogs();
+  const lastUpdated = getLastUpdated(logs);
   const [isAuthorised] = useAtom(isAuthorisedAtom);
   const [job] = useAtom(jobAtom);
   return (
@@ -48,6 +57,18 @@ export default function Nav({ lastUpdated }) {
           <ButtonLink href="/trends" className="">
             Charts
           </ButtonLink>
+          <CSVLink
+            className={`bg-white p-2 rounded uppercase text-sm font-bold text-center ml-2`}
+            data={isLoading ? [] : logs}
+            headers={Object.values(properties)?.map((p) => ({
+              label: p?.label,
+              key: p?.accessor,
+            }))}
+            filename={`k2-aqguard-data-${dayjs().format("YYYY-MM-DD")}.csv`}
+            target="_blank"
+          >
+            DOWNLOAD DATA
+          </CSVLink>
         </div>
       </div>
     </nav>
