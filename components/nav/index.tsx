@@ -54,11 +54,11 @@ export default function Nav() {
           {/* <ButtonLink href="/table" className="mr-2">
                 Data Table
               </ButtonLink> */}
-          <ButtonLink href="/trends" className="">
+          <ButtonLink href="/trends" className="mr-2">
             Charts
           </ButtonLink>
           <CSVLink
-            className={`bg-white p-2 rounded uppercase text-sm font-bold text-center ml-2`}
+            className={`bg-white p-2 rounded uppercase text-sm font-bold text-center`}
             data={isLoading ? [] : logs}
             headers={Object.values(properties)?.map((p) => ({
               label: p?.label,
