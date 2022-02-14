@@ -33,7 +33,7 @@ export default function Nav({ lastUpdated }) {
           </Link>
           <div className={`text-sm text-white`}>{`DEVICE IS ${
             isDeviceConnected(lastUpdated) ? "" : "NOT "
-          }CONNECTED // LAST UPDATED: ${lastUpdated}`}</div>
+          }CONNECTED // LAST UPDATED: ${lastUpdated || "N/A"}`}</div>
         </div>
         <div className="flex border-t border-gray-200 pt-2 sm:border-none">
           <ButtonLink href="/" className="mx-2">
