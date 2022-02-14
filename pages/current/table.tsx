@@ -38,20 +38,6 @@ export default function CurrentData() {
     </Container>
   ) : (
     <Container>
-      {isDeviceConnected(lastUpdated) ? (
-        <div className="text-center p-4 m-2 border-2 rounded border-green-200">
-          <div>DEVICE IS CONNECTED</div>
-          <small>Showing latest readings</small>
-        </div>
-      ) : (
-        <div className="text-center p-4 m-2 border-2 rounded border-red-200">
-          <div>DEVICE IS NOT CONNECTED</div>
-          <small>Showing last readings</small>
-        </div>
-      )}
-      <div className="text-xs text-center">
-        Last updated: {lastUpdated || "N/A"}
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         {[
           { header: "General Air Quality Indicators", accessor: "general" },
