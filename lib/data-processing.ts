@@ -67,7 +67,7 @@ export function mapLogs(logs: LogObject[]) {
   let measurements = Object.entries(measurementMap)?.map(
     ([isoDate, values]) => {
       if (values) {
-        console.log(values);
+        // console.log(values);
         // Add extra values
         let wetBulbTemperature = getWetBulbTemperature(
           values?.relativeHumidity,
@@ -128,7 +128,7 @@ export function mapLogs(logs: LogObject[]) {
       } else return {};
     }
   );
-  console.log(measurements);
+  // console.log(measurements);
   return measurements;
 }
 

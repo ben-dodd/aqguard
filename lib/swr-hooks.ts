@@ -30,7 +30,7 @@ async function processFetcher(url: string) {
 
 export function useAllLogs() {
   const { data, error } = useSWR(`/api/get-all-logs`, mappedFetcher, {
-    refreshInterval: 10000,
+    refreshInterval: 300000,
   });
   return {
     logs: data,
@@ -41,7 +41,7 @@ export function useAllLogs() {
 
 export function useLatestLogs() {
   const { data, error } = useSWR(`/api/get-latest-logs`, mappedFetcher, {
-    refreshInterval: 5000,
+    refreshInterval: 300000,
   });
   return {
     logs: data,
