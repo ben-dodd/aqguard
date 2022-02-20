@@ -51,9 +51,9 @@ export default function Nav() {
           <ButtonLink href="/current/table" className="mx-2">
             Current Values
           </ButtonLink>
-          {/* <ButtonLink href="/table" className="mr-2">
-                Data Table
-              </ButtonLink> */}
+          <ButtonLink href="/particles" className="mr-2">
+            Particles
+          </ButtonLink>
           <ButtonLink href="/trends" className="mr-2">
             Charts
           </ButtonLink>
