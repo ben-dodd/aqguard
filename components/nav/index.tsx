@@ -14,6 +14,8 @@ import dayjs from "dayjs";
 
 export default function Nav() {
   const { logs, isLoading } = useAllLogs();
+  // console.log("Logs");
+  // console.log(logs?.map((log) => Object.values(log)));
   const lastUpdated = getLastUpdated(logs);
   const [isAuthorised] = useAtom(isAuthorisedAtom);
   const [job] = useAtom(jobAtom);
@@ -59,7 +61,7 @@ export default function Nav() {
           </ButtonLink>
           <CSVLink
             className={`bg-white p-2 rounded uppercase text-sm font-bold text-center`}
-            data={isLoading ? [] : logs}
+            data={isLoading ? [] : logs?.map((log) => Object.values(log))}
             headers={Object.values(properties)?.map((p) => ({
               label: p?.label,
               key: p?.accessor,
