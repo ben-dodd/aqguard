@@ -9,7 +9,7 @@ const handler: NextApiHandler = async (_, res) => {
       WHERE SysLogTag="13808<sendVal" AND Message <> " >57"
       ORDER BY DeviceReportedTime DESC
       LIMIT 5000
-      )
+      ) AS log
     ORDER BY DeviceReportedTime ASC
   `);
 
