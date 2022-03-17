@@ -8,7 +8,7 @@ const handler: NextApiHandler = async (_, res) => {
       SELECT ID,DeviceReportedTime,FromHost,Message FROM SystemEvents
       WHERE SysLogTag="13808<sendVal" AND Message <> " >57"
       ORDER BY DeviceReportedTime DESC
-      LIMIT 8000
+      LIMIT 5000
       )
     ORDER BY DeviceReportedTime ASC
   `);
