@@ -59,7 +59,7 @@ export default function Nav() {
           <ButtonLink href="/trends" className="mr-2">
             Charts
           </ButtonLink>
-          {/* <CSVLink
+          <CSVLink
             className={`bg-white p-2 rounded uppercase text-sm font-bold text-center`}
             data={isLoading ? [] : logs?.map((log) => Object.values(log))}
             headers={Object.values(properties)?.map((p) => ({
@@ -70,7 +70,7 @@ export default function Nav() {
             target="_blank"
           >
             DOWNLOAD DATA
-          </CSVLink> */}
+          </CSVLink>
         </div>
       </div>
     </nav>

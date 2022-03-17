@@ -46,7 +46,7 @@ export default function CurrentData() {
           { header: "Equipment Status", accessor: "equipment" },
           { header: "PM Size Bands", accessor: "pmBand" },
         ].map((group) => (
-          <div className="px-4">
+          <div className="px-4" key={group?.accessor}>
             <div className="mb-2 font-bold pt-8 text-center">
               {group?.header}
             </div>
