@@ -33,7 +33,7 @@ export function useAllLogs() {
     refreshInterval: 300000,
   });
   return {
-    logs: data,
+    logs: data?.reverse?.(),
     isLoading: !error && !data,
     isError: error,
   };
