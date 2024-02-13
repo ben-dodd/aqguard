@@ -28,6 +28,7 @@ export default function Nav() {
   const data = useMemo(() => (isLoading ? [] : logs), [logs, isLoading])
   console.log(logs)
   // console.log(headers)
+  console.log(new Date().getTimezoneOffset())
   return (
     <nav>
       <div className="bg-green-400 p-2 sm:flex sm:justify-between sm:items-center w-full pr-8">

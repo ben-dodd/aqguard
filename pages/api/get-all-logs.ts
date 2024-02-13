@@ -3,10 +3,24 @@ import { query } from '../../lib/db'
 
 const handler: NextApiHandler = async (_, res) => {
   try {
+    const timezoneOffsetMinutes = new Date().getTimezoneOffset()
+    const hours = Math.abs(Math.floor(timezoneOffsetMinutes / 60))
+    const minutes = Math.abs(timezoneOffsetMinutes % 60)
+    const sign = timezoneOffsetMinutes > 0 ? '-' : '+'
+
+    // Construct the timezone offset string in the format '+HH:MM' or '-HH:MM'
+    const timezoneOffsetString =
+      sign +
+      hours.toString().padStart(2, '0') +
+      ':' +
+      minutes.toString().padStart(2, '0')
+
+    // console.log(timezoneOffsetMinutes, timezoneOffsetString)
+
     const results = await query(`
       SELECT * FROM (
         SELECT
-          CONVERT_TZ(DeviceReportedTime, 'GMT', 'NZ') AS DeviceReportedTime,
+          CONVERT_TZ(DeviceReportedTime, '+00:00', '${timezoneOffsetString}') AS DeviceReportedTime,
           Message
         FROM SystemEvents
         WHERE
