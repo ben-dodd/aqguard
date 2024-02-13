@@ -4,24 +4,20 @@ import { query } from '../../lib/db'
 const handler: NextApiHandler = async (_, res) => {
   try {
     const results = await query(`
-    SELECT * FROM (
-      SELECT 
-          ID,
+      SELECT * FROM (
+        SELECT
           CONVERT_TZ(DeviceReportedTime, 'GMT', 'NZ') AS DeviceReportedTime,
-          FromHost,
-          Message 
-      FROM 
-          SystemEvents
-      WHERE 
-          SysLogTag="13808<sendVal" 
+          Message
+        FROM SystemEvents
+        WHERE
+          SysLogTag="13808<sendVal"
           AND Message <> " >57"
-      ORDER BY 
+        ORDER BY
           DeviceReportedTime DESC
-      LIMIT 100
-  ) AS log
-  ORDER BY 
-      DeviceReportedTime ASC
-  `)
+        LIMIT 5000
+      ) AS log
+      ORDER BY DeviceReportedTime ASC
+    `)
 
     // Add LIMIT 9 to reduce results
 

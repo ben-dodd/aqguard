@@ -25,7 +25,8 @@ export default function Nav() {
       })),
     []
   )
-  // console.log(data)
+  const data = useMemo(() => (isLoading ? [] : logs), [])
+  console.log(logs)
   // console.log(headers)
   return (
     <nav>
@@ -69,7 +70,7 @@ export default function Nav() {
           </ButtonLink>
           <CSVLink
             className={`bg-white p-2 rounded uppercase text-sm font-bold text-center`}
-            data={logs}
+            data={data}
             headers={headers}
             filename={`k2-aqguard-data-${dayjs().format('YYYY-MM-DD')}.csv`}
             target="_blank"
