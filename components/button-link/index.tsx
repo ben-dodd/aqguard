@@ -1,16 +1,15 @@
-import Link from "next/link";
-import cn from "clsx";
+import Link from 'next/link'
 
-function ButtonLink({ href = "/", className, children }) {
+function ButtonLink({ href = '/', className, children }) {
   return (
-    <Link href={href}>
-      <a
-        className={`bg-white p-2 rounded uppercase text-sm font-bold text-center ${className}`}
-      >
-        {children}
-      </a>
-    </Link>
+    (<Link
+      href={href}
+      className={`bg-white p-2 rounded uppercase text-sm font-bold text-center ${className}`}>
+
+      {children}
+
+    </Link>)
   );
 }
 
-export default ButtonLink;
+export default ButtonLink
