@@ -5,12 +5,22 @@ const handler: NextApiHandler = async (_, res) => {
   try {
     const results = await query(`
     SELECT * FROM (
-      SELECT ID,DeviceReportedTime,FromHost,Message FROM SystemEvents
-      WHERE SysLogTag="13808<sendVal" AND Message <> " >57"
-      ORDER BY DeviceReportedTime DESC
-      LIMIT 5000
-      ) AS log
-    ORDER BY DeviceReportedTime ASC
+      SELECT 
+          ID,
+          CONVERT_TZ(DeviceReportedTime, 'GMT', 'NZ') AS DeviceReportedTime_NZ,
+          FromHost,
+          Message 
+      FROM 
+          SystemEvents
+      WHERE 
+          SysLogTag="13808<sendVal" 
+          AND Message <> " >57"
+      ORDER BY 
+          DeviceReportedTime DESC
+      LIMIT 100
+  ) AS log
+  ORDER BY 
+      DeviceReportedTime_NZ ASC
   `)
 
     // Add LIMIT 9 to reduce results
