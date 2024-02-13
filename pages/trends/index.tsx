@@ -1,8 +1,8 @@
-import Skeleton from "react-loading-skeleton";
-import Container from "@/components/container";
-import Select from "react-select";
+import Skeleton from 'react-loading-skeleton'
+import Container from '@/components/container'
+import Select from 'react-select'
 
-import { useAllLogs } from "@/lib/swr-hooks";
+import { useAllLogs } from '@/lib/swr-hooks'
 import {
   CartesianGrid,
   Label,
@@ -13,47 +13,52 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
-import dayjs from "dayjs";
-import { dateTimeFormat, properties } from "@/lib/data-processing";
-import ButtonLink from "@/components/button-link";
-import { useState } from "react";
-import { MappedLogObject } from "@/lib/types";
+} from 'recharts'
+import dayjs from 'dayjs'
+import { dateTimeFormat, properties } from '@/lib/data-processing'
+import { useState } from 'react'
+import { MappedLogObject } from '@/lib/types'
 
 export default function Trends() {
-  const { logs, isLoading } = useAllLogs();
-  const [period, setPeriod] = useState("all");
-  const [chart, setChart] = useState("tempHum");
-  const [custom1, setCustom1] = useState(null);
-  const [custom2, setCustom2] = useState(null);
+  const { logs, isLoading } = useAllLogs()
+  const [period, setPeriod] = useState('all')
+  const [chart, setChart] = useState('tempHum')
+  const [custom1, setCustom1] = useState(null)
+  const [custom2, setCustom2] = useState(null)
   const filteredLogs =
-    period === "all"
+    period === 'all'
       ? logs
-      : period === "week"
+      : period === 'month'
       ? logs?.filter((l: MappedLogObject) =>
           dayjs()
-            .subtract(1, "week")
+            .subtract(1, 'month')
             .isBefore(dayjs(l?.isoDate, dateTimeFormat))
         )
-      : period === "3day"
-      ? logs?.filter((l: MappedLogObject) =>
-          dayjs().subtract(3, "day").isBefore(dayjs(l?.isoDate, dateTimeFormat))
-        )
-      : period === "day"
-      ? logs?.filter((l: MappedLogObject) =>
-          dayjs().subtract(1, "day").isBefore(dayjs(l?.isoDate, dateTimeFormat))
-        )
-      : period === "hour"
+      : period === 'week'
       ? logs?.filter((l: MappedLogObject) =>
           dayjs()
-            .subtract(1, "hour")
+            .subtract(1, 'week')
             .isBefore(dayjs(l?.isoDate, dateTimeFormat))
         )
-      : logs;
+      : period === '3day'
+      ? logs?.filter((l: MappedLogObject) =>
+          dayjs().subtract(3, 'day').isBefore(dayjs(l?.isoDate, dateTimeFormat))
+        )
+      : period === 'day'
+      ? logs?.filter((l: MappedLogObject) =>
+          dayjs().subtract(1, 'day').isBefore(dayjs(l?.isoDate, dateTimeFormat))
+        )
+      : period === 'hour'
+      ? logs?.filter((l: MappedLogObject) =>
+          dayjs()
+            .subtract(1, 'hour')
+            .isBefore(dayjs(l?.isoDate, dateTimeFormat))
+        )
+      : logs
   const aqOptions = Object.values(properties).map((p) => ({
     value: p?.accessor,
     label: p?.label,
-  }));
+  }))
   return isLoading ? (
     <Container>
       <Skeleton width={180} height={24} />
@@ -63,46 +68,46 @@ export default function Trends() {
       <div className="flex w-full border-t border-gray-200 pt-2 sm:border-none">
         <button
           className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            chart === "tempHum" ? "bg-red-300 hover:bg-red-200" : ""
+            chart === 'tempHum' ? 'bg-red-300 hover:bg-red-200' : ''
           }`}
-          onClick={() => setChart("tempHum")}
+          onClick={() => setChart('tempHum')}
         >
           Temp/Humidity
         </button>
         <button
           className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            chart === "co2PM" ? "bg-red-300 hover:bg-red-200" : ""
+            chart === 'co2PM' ? 'bg-red-300 hover:bg-red-200' : ''
           }`}
-          onClick={() => setChart("co2PM")}
+          onClick={() => setChart('co2PM')}
         >
           CO2/PM10
         </button>
         <button
           className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            chart === "vocHum" ? "bg-red-300 hover:bg-red-200" : ""
+            chart === 'vocHum' ? 'bg-red-300 hover:bg-red-200' : ''
           }`}
-          onClick={() => setChart("vocHum")}
+          onClick={() => setChart('vocHum')}
         >
           VOC/Humidity
         </button>
         <button
           className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            chart === "pm" ? "bg-red-300 hover:bg-red-200" : ""
+            chart === 'pm' ? 'bg-red-300 hover:bg-red-200' : ''
           }`}
-          onClick={() => setChart("pm")}
+          onClick={() => setChart('pm')}
         >
           PM
         </button>
         <button
           className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            chart === "custom" ? "bg-red-300 hover:bg-red-200" : ""
+            chart === 'custom' ? 'bg-red-300 hover:bg-red-200' : ''
           }`}
-          onClick={() => setChart("custom")}
+          onClick={() => setChart('custom')}
         >
           Custom
         </button>
       </div>
-      {chart === "custom" && (
+      {chart === 'custom' && (
         <div className="flex py-4 max-w-md">
           <Select
             options={aqOptions}
@@ -117,52 +122,29 @@ export default function Trends() {
         </div>
       )}
       <div className="flex w-full border-t border-gray-200 pt-2 sm:border-none">
-        <button
-          className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            period === "all" ? "bg-green-300 hover:bg-green-200" : ""
-          }`}
-          onClick={() => setPeriod("all")}
-        >
-          All Time
-        </button>
-        <button
-          className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            period === "week" ? "bg-green-300 hover:bg-green-200" : ""
-          }`}
-          onClick={() => setPeriod("week")}
-        >
-          Last week
-        </button>
-        <button
-          className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            period === "3day" ? "bg-green-300 hover:bg-green-200" : ""
-          }`}
-          onClick={() => setPeriod("3day")}
-        >
-          Last 3 days
-        </button>
-        <button
-          className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            period === "day" ? "bg-green-300 hover:bg-green-200" : ""
-          }`}
-          onClick={() => setPeriod("day")}
-        >
-          Last 24 hours
-        </button>
-        <button
-          className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            period === "hour" ? "bg-green-300 hover:bg-green-200" : ""
-          }`}
-          onClick={() => setPeriod("hour")}
-        >
-          Last hour
-        </button>
+        {[
+          { label: 'All Time', key: 'all' },
+          { label: 'Last Month', key: 'month' },
+          { label: 'Last Week', key: 'week' },
+          { label: 'Last 3 Days', key: '3day' },
+          { label: 'Last 24 Hrs', key: 'day' },
+          { label: 'Last Hour', key: 'hour' },
+        ]?.map((button) => (
+          <button
+            className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
+              period === button?.key ? 'bg-green-300 hover:bg-green-200' : ''
+            }`}
+            onClick={() => setPeriod(button?.key)}
+          >
+            {button?.label}
+          </button>
+        ))}
       </div>
-      {chart === "tempHum" && (
+      {chart === 'tempHum' && (
         <div className="py-4">
           <div className="text-center w-full font-bold text-xl pb-4">
-            <span style={{ color: "#a02222" }}>Temperature</span> and{" "}
-            <span style={{ color: "#1d92a8" }}>Humidity</span>
+            <span style={{ color: '#a02222' }}>Temperature</span> and{' '}
+            <span style={{ color: '#1d92a8' }}>Humidity</span>
           </div>
           <ResponsiveContainer width="95%" aspect={3}>
             <LineChart data={filteredLogs}>
@@ -173,7 +155,7 @@ export default function Trends() {
                 <Label
                   value={`Temperature`}
                   angle={-90}
-                  position={"insideLeft"}
+                  position={'insideLeft'}
                   offset={10}
                 />
               </YAxis>
@@ -181,7 +163,7 @@ export default function Trends() {
                 <Label
                   value={`Humidity`}
                   angle={-90}
-                  position={"insideRight"}
+                  position={'insideRight'}
                   offset={10}
                 />
               </YAxis>
@@ -208,13 +190,13 @@ export default function Trends() {
           </ResponsiveContainer>
         </div>
       )}
-      {chart === "co2PM" && (
+      {chart === 'co2PM' && (
         <div className="py-4">
           <div className="text-center w-full font-bold text-xl pb-4">
-            <span style={{ color: "#a0d000" }}>
+            <span style={{ color: '#a0d000' }}>
               CO<sub>2</sub>
-            </span>{" "}
-            and <span style={{ color: "#e90050" }}>PM10</span>
+            </span>{' '}
+            and <span style={{ color: '#e90050' }}>PM10</span>
           </div>
           <ResponsiveContainer width="95%" aspect={3}>
             <LineChart data={filteredLogs}>
@@ -225,7 +207,7 @@ export default function Trends() {
                 <Label
                   value={`CO2 (ppm)`}
                   angle={-90}
-                  position={"insideLeft"}
+                  position={'insideLeft'}
                   offset={10}
                 />
               </YAxis>
@@ -233,7 +215,7 @@ export default function Trends() {
                 <Label
                   value={`PM10 (µg/m3)`}
                   angle={-90}
-                  position={"insideRight"}
+                  position={'insideRight'}
                   offset={10}
                 />
               </YAxis>
@@ -259,11 +241,11 @@ export default function Trends() {
           </ResponsiveContainer>
         </div>
       )}
-      {chart === "vocHum" && (
+      {chart === 'vocHum' && (
         <div className="py-4">
           <div className="text-center w-full font-bold text-xl pb-4">
-            <span style={{ color: "#a0d000" }}>VOC</span> and{" "}
-            <span style={{ color: "#e90050" }}>Humidity</span>
+            <span style={{ color: '#a0d000' }}>VOC</span> and{' '}
+            <span style={{ color: '#e90050' }}>Humidity</span>
           </div>
           <ResponsiveContainer width="95%" aspect={3}>
             <LineChart data={filteredLogs}>
@@ -274,7 +256,7 @@ export default function Trends() {
                 <Label
                   value={`VOC (ppb)`}
                   angle={-90}
-                  position={"insideLeft"}
+                  position={'insideLeft'}
                   offset={10}
                 />
               </YAxis>
@@ -282,7 +264,7 @@ export default function Trends() {
                 <Label
                   value={`Humidity (%)`}
                   angle={-90}
-                  position={"insideRight"}
+                  position={'insideRight'}
                   offset={10}
                 />
               </YAxis>
@@ -308,7 +290,7 @@ export default function Trends() {
           </ResponsiveContainer>
         </div>
       )}
-      {chart === "pm" && (
+      {chart === 'pm' && (
         <div className="py-4">
           <div className="text-center w-full font-bold text-xl pb-4">
             Particulate Matter
@@ -322,7 +304,7 @@ export default function Trends() {
                 <Label
                   value={`PM (µg/m³)`}
                   angle={-90}
-                  position={"insideLeft"}
+                  position={'insideLeft'}
                   offset={10}
                 />
               </YAxis>
@@ -361,14 +343,14 @@ export default function Trends() {
           </ResponsiveContainer>
         </div>
       )}
-      {chart === "custom" && (
+      {chart === 'custom' && (
         <div className="py-4">
           <div className="text-center w-full font-bold text-xl pb-4">
-            <span style={{ color: "#a0d000" }}>
+            <span style={{ color: '#a0d000' }}>
               {properties[custom1]?.label}
-            </span>{" "}
-            and{" "}
-            <span style={{ color: "#e90050" }}>
+            </span>{' '}
+            and{' '}
+            <span style={{ color: '#e90050' }}>
               {properties[custom2]?.label}
             </span>
           </div>
@@ -381,7 +363,7 @@ export default function Trends() {
                 <Label
                   value={`${properties[custom1]?.label} (${properties[custom1]?.units})`}
                   angle={-90}
-                  position={"insideLeft"}
+                  position={'insideLeft'}
                   offset={10}
                 />
               </YAxis>
@@ -389,7 +371,7 @@ export default function Trends() {
                 <Label
                   value={`${properties[custom2]?.label} (${properties[custom2]?.units})`}
                   angle={-90}
-                  position={"insideRight"}
+                  position={'insideRight'}
                   offset={10}
                 />
               </YAxis>
@@ -416,9 +398,9 @@ export default function Trends() {
         </div>
       )}
     </Container>
-  );
+  )
 }
 
 function formatXDate(tickItem) {
-  return dayjs(tickItem, dateTimeFormat).format("D/MM, h:mma");
+  return dayjs(tickItem, dateTimeFormat).format('D/MM, h:mma')
 }

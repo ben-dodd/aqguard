@@ -1,6 +1,5 @@
 import { useAtom } from 'jotai'
 import { isAuthorisedAtom, jobAtom } from '@/lib/atoms'
-
 import Link from 'next/link'
 import ButtonLink from '@/components/button-link'
 import { CSVLink } from 'react-csv'
@@ -18,11 +17,20 @@ export default function Nav() {
   const lastUpdated = getLastUpdated(logs)
   const [isAuthorised] = useAtom(isAuthorisedAtom)
   const [job] = useAtom(jobAtom)
-  const data = useMemo(
-    () => (isLoading ? [] : logs?.map((log) => Object.values(log)) || []),
-    [logs, isLoading]
+  // const data = useMemo(
+  //   () => (isLoading ? [] : logs?.map((log) => Object.values(log)) || []),
+  //   [logs, isLoading]
+  // )
+  const headers = useMemo(
+    () =>
+      Object.values(properties)?.map((p) => ({
+        label: p?.label,
+        key: p?.accessor,
+      })),
+    []
   )
   // console.log(data)
+  console.log(headers)
   return (
     <nav>
       <div className="bg-green-400 p-2 sm:flex sm:justify-between sm:items-center w-full pr-8">
@@ -65,11 +73,8 @@ export default function Nav() {
           </ButtonLink>
           <CSVLink
             className={`bg-white p-2 rounded uppercase text-sm font-bold text-center`}
-            data={data}
-            headers={Object.values(properties)?.map((p) => ({
-              label: p?.label,
-              key: p?.accessor,
-            }))}
+            data={logs}
+            headers={headers}
             filename={`k2-aqguard-data-${dayjs().format('YYYY-MM-DD')}.csv`}
             target="_blank"
           >
