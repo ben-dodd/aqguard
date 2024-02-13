@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { useAtom } from "jotai";
-import { isAuthorisedAtom, jobAtom } from "@/lib/atoms";
-import { useJobs } from "@/lib/swr-hooks";
-import { JobObject } from "@/lib/types";
+import { useState } from 'react'
+import { useAtom } from 'jotai'
+import { isAuthorisedAtom, jobAtom } from '@/lib/atoms'
+import { useJobs } from '@/lib/swr-hooks'
+import { JobObject } from '@/lib/types'
 
 function LoginScreen() {
-  const [pin, setPin] = useState("");
-  const [error, setError] = useState("");
-  const [job, setJob] = useAtom(jobAtom);
-  const [page, setPage] = useState(1);
-  const [, setIsAuthorised] = useAtom(isAuthorisedAtom);
-  const { jobs } = useJobs();
+  const [pin, setPin] = useState('')
+  const [error, setError] = useState('')
+  const [job, setJob] = useAtom(jobAtom)
+  const [page, setPage] = useState(1)
+  const [, setIsAuthorised] = useAtom(isAuthorisedAtom)
+  const { jobs } = useJobs()
 
   // function handleJobCheck() {
   //   let currentJob = jobs?.filter(
@@ -47,27 +47,27 @@ function LoginScreen() {
   // }
 
   function handlePinEntry(num: number) {
-    setError("");
+    setError('')
     if (pin?.length === 3) {
       // Final PIN number, do checks
       let currentJob: JobObject = jobs?.filter((j: JobObject) => {
-        console.log(j);
-        console.log(pin + `${num}`);
-        return j?.pin === pin + `${num}`;
-      })[0];
+        // console.log(j);
+        // console.log(pin + `${num}`);
+        return j?.pin === pin + `${num}`
+      })[0]
       if (currentJob) {
         // Success!
-        setJob(currentJob);
-        setIsAuthorised(true);
-        setPin("");
+        setJob(currentJob)
+        setIsAuthorised(true)
+        setPin('')
       } else {
         // Incorrect PIN
-        setError("Incorrect PIN");
-        setPin("");
+        setError('Incorrect PIN')
+        setPin('')
       }
     } else {
       // Add number to PIN
-      setPin(pin + `${num}`);
+      setPin(pin + `${num}`)
     }
   }
 
@@ -90,13 +90,13 @@ function LoginScreen() {
           )
         )}
       </div>
-      <div className="my-4 text-red-200">{error || ""}</div>
+      <div className="my-4 text-red-200">{error || ''}</div>
       <div className="text-white">{pin}</div>
     </div>
-  );
+  )
 }
 
-export default LoginScreen;
+export default LoginScreen
 
 // {page === 0 ? (
 //   <>

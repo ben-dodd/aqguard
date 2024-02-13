@@ -1,17 +1,12 @@
-import Skeleton from "react-loading-skeleton";
-
-import Container from "@/components/container";
-
-import { useAllLogs } from "@/lib/swr-hooks";
-import { getLastUpdated } from "@/lib/data-processing";
-import Gauge from "@/components/gauge";
-import { MappedLogObject } from "@/lib/types";
-import Status from "@/components/status";
+import Skeleton from 'react-loading-skeleton'
+import Container from '@/components/container'
+import { useAllLogs } from '@/lib/swr-hooks'
+import Gauge from '@/components/gauge'
+import { MappedLogObject } from '@/lib/types'
 
 export default function CurrentData() {
-  const { logs, isLoading } = useAllLogs();
-  const currentValues: MappedLogObject = logs ? logs[logs?.length - 1] : {};
-  const lastUpdated = getLastUpdated(logs);
+  const { logs, isLoading } = useAllLogs()
+  const currentValues: MappedLogObject = logs ? logs[logs?.length - 1] : {}
 
   return isLoading ? (
     <Container>
@@ -85,5 +80,5 @@ export default function CurrentData() {
         />
       </div>
     </Container>
-  );
+  )
 }

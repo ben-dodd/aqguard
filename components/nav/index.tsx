@@ -11,14 +11,18 @@ import {
 } from '@/lib/data-processing'
 import { useAllLogs } from '@/lib/swr-hooks'
 import dayjs from 'dayjs'
+import { useMemo } from 'react'
 
 export default function Nav() {
   const { logs, isLoading } = useAllLogs()
-  // console.log("Logs");
-  console.log(logs?.map((log) => Object.values(log)))
   const lastUpdated = getLastUpdated(logs)
   const [isAuthorised] = useAtom(isAuthorisedAtom)
   const [job] = useAtom(jobAtom)
+  const data = useMemo(
+    () => (isLoading ? [] : logs?.map((log) => Object.values(log)) || []),
+    [logs, isLoading]
+  )
+  // console.log(data)
   return (
     <nav>
       <div className="bg-green-400 p-2 sm:flex sm:justify-between sm:items-center w-full pr-8">
@@ -61,7 +65,7 @@ export default function Nav() {
           </ButtonLink>
           <CSVLink
             className={`bg-white p-2 rounded uppercase text-sm font-bold text-center`}
-            data={isLoading ? [] : logs?.map((log) => Object.values(log))}
+            data={data}
             headers={Object.values(properties)?.map((p) => ({
               label: p?.label,
               key: p?.accessor,
@@ -69,10 +73,10 @@ export default function Nav() {
             filename={`k2-aqguard-data-${dayjs().format('YYYY-MM-DD')}.csv`}
             target="_blank"
           >
-            DOWNLOAD DATA
+            {isLoading ? 'LOADING...' : 'DOWNLOAD DATA'}
           </CSVLink>
         </div>
       </div>
     </nav>
-  );
+  )
 }

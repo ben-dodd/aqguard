@@ -18,7 +18,7 @@ export default function Particles() {
         lowerLimit: properties?.[key]?.lowerLimit * 6,
         value: value * 1000,
       }))
-    console.log(newParticles)
+    // console.log(newParticles)
     setParticles(newParticles)
   }, [currentValues])
 
