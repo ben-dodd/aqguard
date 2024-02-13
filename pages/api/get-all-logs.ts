@@ -7,7 +7,7 @@ const handler: NextApiHandler = async (_, res) => {
     SELECT * FROM (
       SELECT 
           ID,
-          CONVERT_TZ(DeviceReportedTime, 'GMT', 'NZ') AS DeviceReportedTime_NZ,
+          CONVERT_TZ(DeviceReportedTime, 'GMT', 'NZ') AS DeviceReportedTime,
           FromHost,
           Message 
       FROM 
@@ -20,7 +20,7 @@ const handler: NextApiHandler = async (_, res) => {
       LIMIT 100
   ) AS log
   ORDER BY 
-      DeviceReportedTime_NZ ASC
+      DeviceReportedTime ASC
   `)
 
     // Add LIMIT 9 to reduce results
