@@ -17,10 +17,17 @@ export default function Nav() {
   const lastUpdated = getLastUpdated(logs)
   const [isAuthorised] = useAtom(isAuthorisedAtom)
   const [job] = useAtom(jobAtom)
-  // const data = useMemo(
-  //   () => (isLoading ? [] : logs?.map((log) => Object.values(log)) || []),
-  //   [logs, isLoading]
-  // )
+  const data = useMemo(
+    () =>
+      isLoading
+        ? []
+        : logs?.map((log) => ({
+            ...log,
+            isoDate: dayjs(log?.isoDate),
+          })) || [],
+    [logs, isLoading]
+  )
+  console.log(data)
   const headers = useMemo(
     () =>
       Object.values(properties)?.map((p) => ({
@@ -30,7 +37,7 @@ export default function Nav() {
     []
   )
   // console.log(data)
-  console.log(headers)
+  // console.log(headers)
   return (
     <nav>
       <div className="bg-green-400 p-2 sm:flex sm:justify-between sm:items-center w-full pr-8">
@@ -73,7 +80,7 @@ export default function Nav() {
           </ButtonLink>
           <CSVLink
             className={`bg-white p-2 rounded uppercase text-sm font-bold text-center`}
-            data={logs}
+            data={data}
             headers={headers}
             filename={`k2-aqguard-data-${dayjs().format('YYYY-MM-DD')}.csv`}
             target="_blank"
