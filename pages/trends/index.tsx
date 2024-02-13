@@ -67,40 +67,50 @@ export default function Trends() {
     <Container>
       <div className="flex w-full border-t border-gray-200 pt-2 sm:border-none">
         <button
-          className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            chart === 'tempHum' ? 'bg-red-300 hover:bg-red-200' : ''
+          className={`mr-2 border p-2 rounded uppercase text-sm font-bold text-center ${
+            chart === 'tempHum'
+              ? 'bg-red-300 hover:bg-red-200'
+              : 'bg-white hover:bg-gray-200'
           }`}
           onClick={() => setChart('tempHum')}
         >
           Temp/Humidity
         </button>
         <button
-          className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            chart === 'co2PM' ? 'bg-red-300 hover:bg-red-200' : ''
+          className={`mr-2 border p-2 rounded uppercase text-sm font-bold text-center ${
+            chart === 'co2PM'
+              ? 'bg-red-300 hover:bg-red-200'
+              : 'bg-white hover:bg-gray-200'
           }`}
           onClick={() => setChart('co2PM')}
         >
           CO2/PM10
         </button>
         <button
-          className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            chart === 'vocHum' ? 'bg-red-300 hover:bg-red-200' : ''
+          className={`mr-2 border p-2 rounded uppercase text-sm font-bold text-center ${
+            chart === 'vocHum'
+              ? 'bg-red-300 hover:bg-red-200'
+              : 'bg-white hover:bg-gray-200'
           }`}
           onClick={() => setChart('vocHum')}
         >
           VOC/Humidity
         </button>
         <button
-          className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            chart === 'pm' ? 'bg-red-300 hover:bg-red-200' : ''
+          className={`mr-2 border p-2 rounded uppercase text-sm font-bold text-center ${
+            chart === 'pm'
+              ? 'bg-red-300 hover:bg-red-200'
+              : 'bg-white hover:bg-gray-200'
           }`}
           onClick={() => setChart('pm')}
         >
           PM
         </button>
         <button
-          className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-            chart === 'custom' ? 'bg-red-300 hover:bg-red-200' : ''
+          className={`mr-2 border p-2 rounded uppercase text-sm font-bold text-center ${
+            chart === 'custom'
+              ? 'bg-red-300 hover:bg-red-200'
+              : 'bg-white hover:bg-gray-200'
           }`}
           onClick={() => setChart('custom')}
         >
@@ -131,8 +141,10 @@ export default function Trends() {
           { label: 'Last Hour', key: 'hour' },
         ]?.map((button) => (
           <button
-            className={`mr-2 border bg-white hover:bg-gray-200 p-2 rounded uppercase text-sm font-bold text-center ${
-              period === button?.key ? 'bg-green-300 hover:bg-green-200' : ''
+            className={`mr-2 border p-2 rounded uppercase text-sm font-bold text-center ${
+              period === button?.key
+                ? 'bg-green-300 hover:bg-green-200'
+                : 'bg-white hover:bg-gray-200 '
             }`}
             onClick={() => setPeriod(button?.key)}
           >
