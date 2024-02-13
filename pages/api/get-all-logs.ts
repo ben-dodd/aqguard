@@ -1,5 +1,5 @@
-import { NextApiHandler } from "next";
-import { query } from "../../lib/db";
+import { NextApiHandler } from 'next'
+import { query } from '../../lib/db'
 
 const handler: NextApiHandler = async (_, res) => {
   try {
@@ -8,20 +8,20 @@ const handler: NextApiHandler = async (_, res) => {
       SELECT ID,DeviceReportedTime,FromHost,Message FROM SystemEvents
       WHERE SysLogTag="13808<sendVal" AND Message <> " >57"
       ORDER BY DeviceReportedTime DESC
-      LIMIT 5000
+      LIMIT 20000
       ) AS log
     ORDER BY DeviceReportedTime ASC
-  `);
+  `)
 
     // Add LIMIT 9 to reduce results
 
-    return res.json(results);
+    return res.json(results)
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    res.status(500).json({ message: e.message })
   }
-};
+}
 
-export default handler;
+export default handler
 
 // DATABASE CLEAN UP
 // DELETE FROM SystemEvents
