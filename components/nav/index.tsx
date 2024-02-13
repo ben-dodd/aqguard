@@ -25,7 +25,7 @@ export default function Nav() {
       })),
     []
   )
-  const data = useMemo(() => (isLoading ? [] : logs), [])
+  const data = useMemo(() => (isLoading ? [] : logs), [logs, isLoading])
   console.log(logs)
   // console.log(headers)
   return (
